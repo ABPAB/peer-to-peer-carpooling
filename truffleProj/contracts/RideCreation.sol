@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity >=0.4.22 <0.9.0;
 
 contract RideCreation {
     struct Ride {
@@ -26,7 +26,28 @@ contract RideCreation {
         emit RideCreated(rideCounter, msg.sender, pickupLocation, dropoffLocation, fare, availableSeats);
     }
 
-    function getRide(uint rideId) public view returns (Ride memory) {
-        return rides[rideId];
+    function getRide(uint rideId) 
+        public 
+        view 
+        returns (
+            uint, 
+            address, 
+            string memory, 
+            string memory, 
+            uint, 
+            uint, 
+            bool
+        ) 
+    {
+        Ride storage ride = rides[rideId];
+        return (
+            ride.rideId, 
+            ride.driver, 
+            ride.pickupLocation, 
+            ride.dropoffLocation, 
+            ride.fare, 
+            ride.availableSeats, 
+            ride.isActive
+        );
     }
 }
