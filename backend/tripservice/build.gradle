@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+	implementation 'org.web3j:core:4.9.4'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
