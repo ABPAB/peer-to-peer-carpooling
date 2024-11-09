@@ -1,6 +1,6 @@
-package org.buildcode.tripservice;
+package org.buildcode.rideservice;
 
-import org.buildcode.tripservice.contracts.RideCreation;
+import org.buildcode.rideservice.contracts.RideCreation;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;

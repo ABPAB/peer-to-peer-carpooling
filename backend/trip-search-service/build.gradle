@@ -13,6 +13,12 @@ java {
 	}
 }
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
@@ -29,12 +35,10 @@ dependencies {
 	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.6.0'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
 
-	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-
-
-	implementation 'org.web3j:core:4.9.4'
-
+	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

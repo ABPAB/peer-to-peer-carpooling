@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: TRIPE-SERVICE
+    name: RIDE-SERVICE
 
   datasource:
     url: jdbc:mysql://localhost:3306/tripDB

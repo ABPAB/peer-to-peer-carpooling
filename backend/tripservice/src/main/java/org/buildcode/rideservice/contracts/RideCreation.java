@@ -1,4 +1,4 @@
-package org.buildcode.tripservice.contracts;
+package org.buildcode.rideservice.contracts;
 
 import io.reactivex.Flowable;
 import java.math.BigInteger;

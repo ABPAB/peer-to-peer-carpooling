@@ -1,10 +1,10 @@
-package org.buildcode.tripservice;
+package org.buildcode.ride_search_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TripserviceApplicationTests {
+class TripSearchServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
