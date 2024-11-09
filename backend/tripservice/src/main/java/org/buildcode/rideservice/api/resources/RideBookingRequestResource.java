@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = ApiConstants.BOOKING_SERVICE_V1 + ApiConstants.BOOKING_REQUEST)
-public interface TripBookingRequestResource {
+public interface RideBookingRequestResource {
 
     @ApiResponses(
             value = {

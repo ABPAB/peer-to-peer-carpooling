@@ -30,7 +30,7 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
 
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
-
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
 	implementation 'org.web3j:core:4.9.4'
 
