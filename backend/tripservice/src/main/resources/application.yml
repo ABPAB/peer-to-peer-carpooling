@@ -16,8 +16,15 @@ spring:
       ddl-auto: update
       dialect: org.hibernate.dialect.MySQLDialect
 
-# Eureka Configuration
+# Eureka Configurations
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+# Swagger Configurations
+springdoc:
+  swagger-ui:
+    url: /v3/api-docs
+    path: /swagger-ui.html
+    enabled: true

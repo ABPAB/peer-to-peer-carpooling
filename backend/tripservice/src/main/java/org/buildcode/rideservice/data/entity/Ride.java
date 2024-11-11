@@ -1,7 +1,6 @@
 package org.buildcode.rideservice.data.entity;
 
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -33,19 +32,19 @@ public class Ride {
     private String id;
 
     @Column(name = "source", nullable = false)
-    String source;
+    private String source;
 
     @Column(name = "destination", nullable = false)
-    String destination;
+    private String destination;
 
     @Column(name = "userId", nullable = false)
-    String userId;
+    private String userId;
 
     @Column(name = "seats", nullable = false)
     private Integer seats;
 
     @Column(name = "carModel", nullable = false)
-    String carModel;
+    private String carModel;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
