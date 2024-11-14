@@ -13,7 +13,7 @@ import org.buildcode.rideservice.api.model.v1_0.BookingRequestResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Booking Request Resource")
+@Tag(name = "Ride Request Resource")
 
 @RestController
 @RequestMapping(value = ApiConstants.BOOKING_SERVICE_V1 + ApiConstants.BOOKING_REQUEST)

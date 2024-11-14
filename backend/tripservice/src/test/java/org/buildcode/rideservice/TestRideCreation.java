@@ -23,13 +23,20 @@ public class TestRideCreation {
 
         // Create a contract instance
         RideCreation rideCreationContract = RideCreation.load(
-                contractAddress, web3j, credentials, new DefaultGasProvider());
+                contractAddress, web3j, credentials, new DefaultGasProvider()
+        );
 
         // Example: Calling createRide function
         try {
             RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(
-                    "PickupLocation", "DropOffLocation", BigInteger.valueOf(50), BigInteger.valueOf(3));
+                    "PickupLocation",
+                    "DropOffLocation",
+                    BigInteger.valueOf(50),
+                    BigInteger.valueOf(3)
+            );
+
             TransactionReceipt receipt = transaction.send();
+
             System.out.println("Ride created with transaction hash: " + receipt.getTransactionHash());
 
         } catch (Exception e) {

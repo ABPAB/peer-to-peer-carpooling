@@ -1,6 +1,9 @@
 package org.buildcode.rideservice.api.constants;
 
 public class ApiConstants {
+    // BLOCKCHAIN
+    public final static String BLOCKCHAIN_BASE_URL_V1 = "http://localhost:8545";
+
     // API URI
     public final static String BOOKING_SERVICE_V1 = "/trip-service/v1";
     public final static String BOOKING = "/booking";
