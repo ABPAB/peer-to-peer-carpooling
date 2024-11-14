@@ -8,8 +8,7 @@ const sendNotification = async (topic, message) => {
       title: message.title,
       body: message.body,
     },
-   // token: token, // Device token
-   topic: topic,  // Use topic instead of token for testing
+    token: token, // Device token
   };
 
   try {

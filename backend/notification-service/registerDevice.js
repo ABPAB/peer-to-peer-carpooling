@@ -2,40 +2,17 @@
 
 const admin = require('./firebaseSetup'); // Import firebase admin setup
 
-// This is a simulated device registration process
 const registerDevice = async () => {
   try {
-    // Simulate a device registration by sending a message to a test device
-    const message = {
-      notification: {
-        title: 'Test Notification',
-        body: 'This is a test message from Firebase Admin SDK.',
-      },
-      //token: 'dGhpcy1pcy1hLXRlc3QtdG9rZW4=', // This will be manually replaced by an actual token
-      topic: 'test-topic', // Sending to a test topic instead of a device token
-    };
+    // Simulate registering a device by returning a sample device token.
+    const deviceToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlNTIxYmY1ZjdhNDAwOGMzYmQ3MjFmMzk2OTcwOWI1MzY0MzA5NjEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiR29wYWwgQW5hbmQiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmtKaFhyNVlaZEVaNXZSNXZZcjBBUW5IQng2LTRQOGdtRnFWUi1nNmEydnk4b0QwZz1zOTYtYyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9jYXItcG9vbGluZy1hcHAtYml0cyIsImF1ZCI6ImNhci1wb29saW5nLWFwcC1iaXRzIiwiYXV0aF90aW1lIjoxNzMxNTkyNTk0LCJ1c2VyX2lkIjoidUdEeFVhNUZBaFdleXhldlZ0eGNxNGFqY0NrMiIsInN1YiI6InVHRHhVYTVGQWhXZXl4ZXZWdHhjcTRhamNDazIiLCJpYXQiOjE3MzE1OTI1OTQsImV4cCI6MTczMTU5NjE5NCwiZW1haWwiOiJnb3BhbGFuYW5kMDIwOEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjEwNTMzMDQ0MDkzNjYxMDI0NDI0NSJdLCJlbWFpbCI6WyJnb3BhbGFuYW5kMDIwOEBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.l4ER_y_UOGUStlLfEQ3iRdr7xaErMH7J7OOTNvOuOwzSegp0TX4Wf6pyzjMMuVfZ8DsAdZmwqeoDWHALiKt_k7GhJLlKbdLW9jl4G_hNhLAhBwrdztugBweVqgn3wVGIlivEhEl7LhhzmBbqu9j-J25nnaVB3o1TN8G0iunGsCp8PSLCMk1xQQCzo5T_rjD7lcgsQPT_ePZvmVXo1QpRdEwn_5ELJa5QiZ5kUXhos8-iUNf-019M02ZSyS6vTU46dtXq6BWYhKAe0VVsiYLTXK94Kj7DENEKMVuIAQyX7hQg86YtIbYNlZIB2bNrYFg3wGkkEUFL81Zc6PMy-ZQ1qg'; // Replace with the actual token from Firebase SDK.
 
-    console.log('Sending test notification to topic...'); // for topic
-
-//     // This is a simulated registration. You'd actually get the token through Firebase's frontend SDK
-//     const response = await admin.messaging().send(message);
-//     console.log('Test notification sent:', response);
-//     return response;
-//   } catch (error) {
-//     console.error('Error sending test notification:', error);
-//     throw error;
-//   }
-
-// Send a message to devices subscribed to the topic 'test-topic'
-const response = await admin.messaging().send(message);
-console.log('Test notification sent successfully to topic:', response);
-return response;
-
-} catch (error) {
-console.error('Error during device registration (topic messaging):', error.message);
-throw error;
-}
-
+    console.log('Device registered with token:', deviceToken);
+    return deviceToken;
+  } catch (error) {
+    console.error('Error during device registration (token):', error.message);
+    throw error;
+  }
 };
 
 module.exports = registerDevice;
