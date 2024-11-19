@@ -5,12 +5,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import org.buildcode.rideservice.api.constants.BookingRequestStatus;
+
+import java.time.Instant;
 
 @Data
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookingRequestModel {
-    @Schema(description = "rideId", example = "8u3wk976", required = true)
+
+    @Schema(description = "rideId", example = "8u3wk976")
     String rideId;
+
+    @Schema(description = "User who posted the ride", example = "98nasyu3w423")
+    private String userId;
 }
