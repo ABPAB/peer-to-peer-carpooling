@@ -46,6 +46,11 @@ public class Ride {
     @Column(name = "carModel", nullable = false)
     private String carModel;
 
+      // New field for storing the rider's device token
+      @Column(name = "deviceToken", nullable = true)
+      private String deviceToken;
+  
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private RideStatus status;
