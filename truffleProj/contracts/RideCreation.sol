@@ -1,53 +1,156 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
+pragma experimental ABIEncoderV2;
 
 contract RideCreation {
+    enum RideStatus { ACTIVE, COMPLETED, CANCELLED }
+
+    struct RideDetails {
+        string source;        // Source location
+        string destination;   // Destination location
+        uint fare;            // Fare for the ride
+        uint availableSeats;  // Number of available seats
+        string carModel;      // Car model used for the ride
+    }
+
     struct Ride {
-        uint rideId;
-        address driver;
-        string pickupLocation;
-        string dropoffLocation;
+        string rideId;         // Unique identifier for the ride
+        string userId;         // User ID of the driver
+        RideDetails details;   // Ride details
+        RideStatus status;     // Current status of the ride
+        uint256 createdAt;     // Timestamp of ride creation
+        uint256 updatedAt;     // Timestamp of last update
+    }
+
+    struct RideInput {
+        string rideId;
+        string userId;
+        string source;
+        string destination;
         uint fare;
         uint availableSeats;
-        bool isActive;
+        string carModel;
     }
 
-    uint public rideCounter = 0;
-    mapping(uint => Ride) public rides;
+    mapping(bytes32 => Ride) private rides;
 
-    event RideCreated(uint rideId, address driver, string pickupLocation, string dropoffLocation, uint fare, uint availableSeats);
+    event RideCreated(
+        string rideId,
+        string userId,
+        string source,
+        string destination,
+        uint fare,
+        uint availableSeats,
+        string carModel,
+        RideStatus status
+    );
 
-    function createRide(string memory pickupLocation, string memory dropoffLocation, uint fare, uint availableSeats) public {
-        require(availableSeats > 0, "There must be at least one available seat");
+    event RideUpdated(
+        string rideId,
+        string userId,
+        string source,
+        string destination,
+        uint fare,
+        uint availableSeats,
+        string carModel,
+        RideStatus status,
+        uint256 updatedAt
+    );
 
-        rideCounter++;
-        rides[rideCounter] = Ride(rideCounter, msg.sender, pickupLocation, dropoffLocation, fare, availableSeats, true);
+    /**
+     * @dev Create a new ride using a struct as input.
+     * @param rideInput Struct containing all ride creation parameters.
+     */
+    function createRide(RideInput memory rideInput) public {
+        require(bytes(rideInput.rideId).length > 0, "Ride ID cannot be empty");
+        require(rideInput.availableSeats > 0, "There must be at least one available seat");
+        require(bytes(rideInput.userId).length > 0, "User ID cannot be empty");
 
-        emit RideCreated(rideCounter, msg.sender, pickupLocation, dropoffLocation, fare, availableSeats);
+        bytes32 rideKey = keccak256(abi.encodePacked(rideInput.rideId));
+        require(bytes(rides[rideKey].rideId).length == 0, "Ride ID already exists");
+
+        rides[rideKey] = Ride(
+            rideInput.rideId,
+            rideInput.userId,
+            RideDetails(rideInput.source, rideInput.destination, rideInput.fare, rideInput.availableSeats, rideInput.carModel),
+            RideStatus.ACTIVE,
+            block.timestamp,
+            block.timestamp
+        );
+
+        emit RideCreated(
+            rideInput.rideId,
+            rideInput.userId,
+            rideInput.source,
+            rideInput.destination,
+            rideInput.fare,
+            rideInput.availableSeats,
+            rideInput.carModel,
+            RideStatus.ACTIVE
+        );
     }
 
-    function getRide(uint rideId) 
-        public 
-        view 
+    /**
+     * @dev Retrieve ride details by ID.
+     * @param rideId ID of the ride to retrieve.
+     */
+    function getRide(string memory rideId)
+        public
+        view
         returns (
-            uint, 
-            address, 
-            string memory, 
-            string memory, 
-            uint, 
-            uint, 
-            bool
-        ) 
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            uint,
+            uint,
+            string memory,
+            RideStatus,
+            uint256,
+            uint256
+        )
     {
-        Ride storage ride = rides[rideId];
+        bytes32 rideKey = keccak256(abi.encodePacked(rideId));
+        Ride storage ride = rides[rideKey];
+        require(bytes(ride.rideId).length > 0, "Ride does not exist");
+
         return (
-            ride.rideId, 
-            ride.driver, 
-            ride.pickupLocation, 
-            ride.dropoffLocation, 
-            ride.fare, 
-            ride.availableSeats, 
-            ride.isActive
+            ride.rideId,
+            ride.userId,
+            ride.details.source,
+            ride.details.destination,
+            ride.details.fare,
+            ride.details.availableSeats,
+            ride.details.carModel,
+            ride.status,
+            ride.createdAt,
+            ride.updatedAt
+        );
+    }
+
+    /**
+     * @dev Update the status of a ride.
+     * @param rideId ID of the ride to update.
+     * @param status New status for the ride.
+     */
+    function updateRideStatus(string memory rideId, RideStatus status) public {
+        bytes32 rideKey = keccak256(abi.encodePacked(rideId));
+        Ride storage ride = rides[rideKey];
+        require(bytes(ride.rideId).length > 0, "Ride does not exist");
+
+        ride.status = status;
+        ride.updatedAt = block.timestamp;
+
+        emit RideUpdated(
+            ride.rideId,
+            ride.userId,
+            ride.details.source,
+            ride.details.destination,
+            ride.details.fare,
+            ride.details.availableSeats,
+            ride.details.carModel,
+            ride.status,
+            ride.updatedAt
         );
     }
 }
