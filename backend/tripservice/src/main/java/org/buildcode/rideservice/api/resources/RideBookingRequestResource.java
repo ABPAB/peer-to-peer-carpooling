@@ -48,4 +48,7 @@ public interface RideBookingRequestResource {
             @Schema(description = "Reference", example = "8732njsf87yh", required = true)
             @PathVariable String bookingRequestId
     );
+
+    //Accept ride book request
+
 }

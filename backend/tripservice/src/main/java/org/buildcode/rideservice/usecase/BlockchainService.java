@@ -5,4 +5,6 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 public interface BlockchainService {
 
     TransactionReceipt createRide();
+
+    TransactionReceipt bookRideRequest();
 }
