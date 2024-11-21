@@ -7,6 +7,8 @@ public enum BookingRequestStatus {
 
     BOOKED,
 
+    REJECTED,
+
     CANCELLED,
 
     CONFIRMED,

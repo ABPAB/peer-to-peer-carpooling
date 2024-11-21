@@ -11,7 +11,12 @@ import org.buildcode.rideservice.api.constants.ApiConstants;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestResponseModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "Ride Request Resource")
 
@@ -49,6 +54,19 @@ public interface RideBookingRequestResource {
             @PathVariable String bookingRequestId
     );
 
-    //Accept ride book request
+    @Operation(method = "POST", summary = "Accept Ride Booking Request")
+    @PostMapping("/{bookingRequestId}/accept")
+    ResponseEntity<Boolean> acceptRideBookingRequest(
+            @Parameter(name = "bookingRequestId", description = "bookingRequestId")
+            @Schema(description = "Booking Request ID", example = "8732njsf87yh", required = true)
+            @PathVariable String bookingRequestId
+    );
 
+    @Operation(method = "POST", summary = "Reject Ride Request")
+    @PostMapping("/{bookingRequestId}/reject")
+    ResponseEntity<Boolean> rejectRideBookingRequest(
+            @Parameter(name = "bookingRequestId", description = "bookingRequestId")
+            @Schema(description = "Booking Request ID", example = "8732njsf87yh", required = true)
+            @PathVariable String bookingRequestId
+    );
 }

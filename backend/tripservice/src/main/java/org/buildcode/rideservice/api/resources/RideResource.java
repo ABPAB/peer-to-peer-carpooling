@@ -71,44 +71,6 @@ public interface RideResource {
             @PathVariable String id
     );
 
-
-    // New method to accept a ride
-    @Operation(method = "POST", summary = "Accept Ride Request")
-    @PostMapping("/{id}/accept")
-    ResponseEntity<String> acceptRide(
-            @Parameter(name = "id", description = "ride id")
-            @Schema(description = "Ride ID", example = "8732njsf87yh", required = true)
-            @PathVariable String id
-    );
-
-    // New method to reject a ride
-    @Operation(method = "POST", summary = "Reject Ride Request")
-    @PostMapping("/{id}/reject")
-    ResponseEntity<String> rejectRide(
-            @Parameter(name = "id", description = "ride id")
-            @Schema(description = "Ride ID", example = "8732njsf87yh", required = true)
-            @PathVariable String id
-    );
-
-    // New method to cancel a ride
-    @Operation(method = "POST", summary = "Cancel Ride Request")
-    @PostMapping("/{id}/cancel")
-    ResponseEntity<String> cancelRide(
-            @Parameter(name = "id", description = "ride id")
-            @Schema(description = "Ride ID", example = "8732njsf87yh", required = true)
-            @PathVariable String id
-    );
-
-    // New method to request a ride by the rider
-     @Operation(method = "POST", summary = "Rider Requests a Ride")
-      @PostMapping("/{rideId}/request")
-      ResponseEntity<String> requestRide(
-         @Parameter(name = "rideId", description = "ride id")
-         @Schema(description = "Ride ID", example = "8732njsf87yh", required = true)
-         @PathVariable String rideId
-);
-
-
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
@@ -126,5 +88,4 @@ public interface RideResource {
 
             @RequestBody CreateRideRequestModel createRideRequestMode
     );
-
 }
