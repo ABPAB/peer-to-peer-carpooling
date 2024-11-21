@@ -16,4 +16,9 @@ public class BlockchainServiceImpl implements BlockchainService {
         // blockchain codes...
         return null;
     }
+
+    @Override
+    public TransactionReceipt bookRideRequest() {
+        return null;
+    }
 }

@@ -3,12 +3,13 @@ package org.buildcode.rideservice.api.model.v1_0;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
+import jakarta.persistence.Column;
 import lombok.Data;
 import org.buildcode.rideservice.api.constants.BookingRequestStatus;
 
+import java.time.Instant;
+
 @Data
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookingRequestResponseModel {
@@ -19,12 +20,15 @@ public class BookingRequestResponseModel {
     @Schema(description = "rideId", example = "8u3wk976")
     String rideId;
 
+    @Column(name = "userId", nullable = false)
+    private String userId;
+
     @Schema(description = "booking request status", example = "PENDING")
     BookingRequestStatus status;
 
-    @Schema(description = "created at", example = "date")
-    private String createdAt;
+    @Schema(description = "Timestamp when the ride request was created", example = "2023-08-01T10:15:30Z")
+    private Instant createdAt;
 
-    @Schema(description = "updated at", example = "date")
-    private String updatedAt;
+    @Schema(description = "Timestamp when the ride request was last updated", example = "2023-08-01T12:45:30Z")
+    private Instant updatedAt;
 }

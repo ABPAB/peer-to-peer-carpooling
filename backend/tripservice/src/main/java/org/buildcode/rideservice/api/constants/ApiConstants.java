@@ -8,6 +8,7 @@ public class ApiConstants {
     public final static String BOOKING_SERVICE_V1 = "/trip-service/v1";
     public final static String BOOKING = "/booking";
     public final static String BOOKING_REQUEST = "/request";
+    public final static String RIDE_DEVICE = "/device";
 
     // API error code
     public final static String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";

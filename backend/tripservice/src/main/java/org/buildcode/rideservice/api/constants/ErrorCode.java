@@ -7,6 +7,7 @@ public enum ErrorCode {
 
     // Booking-related errors
     BOOKING_404("BOOKING_404", "Booking not found"),
+    BOOKING_500("BOOKING_500", "Booking can not be accepted"),
     BOOKING_400("BOOKING_400", "Invalid booking request"),
 
     // Payment-related errors

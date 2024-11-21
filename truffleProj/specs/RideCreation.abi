@@ -1,191 +1,218 @@
 [
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "rideId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "driver",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "pickupLocation",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "dropoffLocation",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "fare",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "availableSeats",
-          "type": "uint256"
-        }
-      ],
-      "name": "RideCreated",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "rideCounter",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "rides",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "rideId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "driver",
-          "type": "address"
-        },
-        {
-          "internalType": "string",
-          "name": "pickupLocation",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "dropoffLocation",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "fare",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "availableSeats",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "isActive",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "pickupLocation",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "dropoffLocation",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "fare",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "availableSeats",
-          "type": "uint256"
-        }
-      ],
-      "name": "createRide",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "rideId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getRide",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "rideId",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "driver",
-              "type": "address"
-            },
-            {
-              "internalType": "string",
-              "name": "pickupLocation",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "dropoffLocation",
-              "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "fare",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "availableSeats",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "isActive",
-              "type": "bool"
-            }
-          ],
-          "internalType": "struct RideCreation.Ride",
-          "name": "",
-          "type": "tuple"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "userId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "destination",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "fare",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "availableSeats",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "carModel",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "RideCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "userId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "destination",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "fare",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "availableSeats",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "carModel",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "name": "updatedAt",
+        "type": "uint256"
+      }
+    ],
+    "name": "RideUpdated",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "name": "rideId",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "name": "fare",
+            "type": "uint256"
+          },
+          {
+            "name": "availableSeats",
+            "type": "uint256"
+          },
+          {
+            "name": "carModel",
+            "type": "string"
+          }
+        ],
+        "name": "rideInput",
+        "type": "tuple"
+      }
+    ],
+    "name": "createRide",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "rideId",
+        "type": "string"
+      }
+    ],
+    "name": "getRide",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "uint8"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "updateRideStatus",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
 ]

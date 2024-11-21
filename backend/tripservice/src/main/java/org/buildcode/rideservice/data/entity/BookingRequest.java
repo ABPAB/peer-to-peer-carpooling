@@ -1,17 +1,8 @@
 package org.buildcode.rideservice.data.entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.buildcode.rideservice.api.constants.RideStatus;
+import org.buildcode.rideservice.api.constants.BookingRequestStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -19,39 +10,25 @@ import org.springframework.data.annotation.LastModifiedBy;
 import java.time.Instant;
 
 @Entity
-@Table(name = "Rides")
+@Table(name = "BookingRequest")
 @Data
-public class Ride {
-
+public class BookingRequest {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    private String id;
-
-    @Column(name = "source", nullable = false)
-    private String source;
-
-    @Column(name = "destination", nullable = false)
-    private String destination;
+    private String bookingRequestId;
 
     @Column(name = "userId", nullable = false)
     private String userId;
 
-    @Column(name = "seats", nullable = false)
-    private Integer seats;
-
-    @Column(name = "carModel", nullable = false)
-    private String carModel;
-
-    @Column(name = "deviceToken", nullable = true)
-    private String deviceToken;
+    @Column(name = "rideId", nullable = false)
+    private String rideId;
 
     @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RideStatus status;
+    private BookingRequestStatus status;
 
     @CreatedDate
     @Column(name = "createdAt", nullable = false)
