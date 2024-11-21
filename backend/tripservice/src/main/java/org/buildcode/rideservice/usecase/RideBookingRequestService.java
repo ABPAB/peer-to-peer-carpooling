@@ -8,4 +8,8 @@ public interface RideBookingRequestService {
     BookingRequestResponseModel createBookingRequest(BookingRequestModel requestModel);
 
     BookingRequestResponseModel getBookingRequest(String bookingRequestId);
+
+    Boolean acceptRideBookingRequest(String bookingRequestId);
+
+    Boolean rejectRideBookingRequest(String bookingRequestId);
 }
