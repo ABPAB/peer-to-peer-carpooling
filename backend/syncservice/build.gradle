@@ -1,0 +1,42 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.0'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'org.buildcode'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.6.0'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	implementation 'org.json:json:20231013'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
