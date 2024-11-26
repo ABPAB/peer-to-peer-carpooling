@@ -1,17 +1,9 @@
-package org.buildcode.rideservice.data.entity;
+// src/main/java/org/buildcode/rideservice/data/entity/Ride.java
+package org.buildcode.ride_search_service.data.entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.buildcode.rideservice.api.constants.RideStatus;
+import org.buildcode.ride_search_service.api.constants.RideStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -25,10 +17,7 @@ public class Ride {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Column(name = "source", nullable = false)
@@ -46,9 +35,6 @@ public class Ride {
     @Column(name = "carModel", nullable = false)
     private String carModel;
 
-    @Column(name = "deviceToken", nullable = true)
-    private String deviceToken;
-
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private RideStatus status;
@@ -62,17 +48,17 @@ public class Ride {
     private Instant updatedAt;
 
     @PrePersist
-    protected  void prePersist(){
-        if(this.createdAt == null){
+    protected void prePersist() {
+        if (this.createdAt == null) {
             createdAt = Instant.now();
         }
-        if(this.updatedAt == null){
+        if (this.updatedAt == null) {
             updatedAt = Instant.now();
         }
     }
 
     @PreUpdate
-    protected void preUpdate(){
+    protected void preUpdate() {
         this.updatedAt = Instant.now();
     }
 }
