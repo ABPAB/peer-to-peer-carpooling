@@ -38,11 +38,10 @@ public class RideServiceImpl implements RideService {
 
         try {
             // add into blockchain
-            TransactionReceipt blockchainResponse = blockchainService.createRide();
+            TransactionReceipt blockchainResponse = blockchainService.createRide(newRide);
 
             // assign the initial status
-//            newRide.setStatus(RideStatus.CREATED);
-
+            newRide.setStatus(RideStatus.ACTIVE);
             return rideRepository.save(newRide);
         } catch (Exception ex) {
             log.error("Exception occurred while creating ride: {}", ex.getMessage());

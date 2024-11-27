@@ -3,10 +3,8 @@ package org.buildcode.rideservice;
 import org.buildcode.rideservice.contracts.RideCreation;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.crypto.Credentials;
-import org.web3j.tuples.generated.Tuple10;
 import org.web3j.tx.gas.DefaultGasProvider;
 import java.math.BigInteger;
 

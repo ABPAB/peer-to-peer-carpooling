@@ -1,10 +1,11 @@
 package org.buildcode.rideservice.usecase;
 
+import org.buildcode.rideservice.data.entity.Ride;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 public interface BlockchainService {
 
-    TransactionReceipt createRide();
+    TransactionReceipt createRide(Ride rideDetails);
 
     TransactionReceipt bookRideRequest();
 }
