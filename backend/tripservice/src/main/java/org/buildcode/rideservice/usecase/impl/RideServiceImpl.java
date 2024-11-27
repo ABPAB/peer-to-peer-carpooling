@@ -41,7 +41,7 @@ public class RideServiceImpl implements RideService {
             TransactionReceipt blockchainResponse = blockchainService.createRide();
 
             // assign the initial status
-            newRide.setStatus(RideStatus.CREATED);
+//            newRide.setStatus(RideStatus.CREATED);
 
             return rideRepository.save(newRide);
         } catch (Exception ex) {

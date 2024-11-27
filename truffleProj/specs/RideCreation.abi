@@ -9,7 +9,7 @@
       },
       {
         "indexed": false,
-        "name": "userId",
+        "name": "ownerId",
         "type": "string"
       },
       {
@@ -34,7 +34,7 @@
       },
       {
         "indexed": false,
-        "name": "carModel",
+        "name": "vehicleNumber",
         "type": "string"
       },
       {
@@ -56,7 +56,49 @@
       },
       {
         "indexed": false,
-        "name": "userId",
+        "name": "ownerId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "name": "availableSeats",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "updatedAt",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "riderCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "RideUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "riderId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "status",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "ownerId",
         "type": "string"
       },
       {
@@ -76,67 +118,108 @@
       },
       {
         "indexed": false,
-        "name": "availableSeats",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "carModel",
+        "name": "vehicleNumber",
         "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "status",
-        "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "name": "updatedAt",
-        "type": "uint256"
       }
     ],
-    "name": "RideUpdated",
+    "name": "SendNotificationEvent",
     "type": "event"
   },
   {
     "constant": false,
     "inputs": [
       {
-        "components": [
-          {
-            "name": "rideId",
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "type": "string"
-          },
-          {
-            "name": "source",
-            "type": "string"
-          },
-          {
-            "name": "destination",
-            "type": "string"
-          },
-          {
-            "name": "fare",
-            "type": "uint256"
-          },
-          {
-            "name": "availableSeats",
-            "type": "uint256"
-          },
-          {
-            "name": "carModel",
-            "type": "string"
-          }
-        ],
-        "name": "rideInput",
-        "type": "tuple"
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "name": "ownerId",
+        "type": "string"
+      },
+      {
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "name": "destination",
+        "type": "string"
+      },
+      {
+        "name": "fare",
+        "type": "uint256"
+      },
+      {
+        "name": "availableSeats",
+        "type": "uint256"
+      },
+      {
+        "name": "vehicleNumber",
+        "type": "string"
       }
     ],
     "name": "createRide",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "name": "ownerId",
+        "type": "string"
+      },
+      {
+        "name": "riderId",
+        "type": "string"
+      }
+    ],
+    "name": "acceptRideByOwner",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "name": "ownerId",
+        "type": "string"
+      },
+      {
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "name": "updateRideStatusByDriver",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "rideId",
+        "type": "string"
+      },
+      {
+        "name": "riderId",
+        "type": "string"
+      }
+    ],
+    "name": "cancelRideByRider",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -148,71 +231,21 @@
       {
         "name": "rideId",
         "type": "string"
+      },
+      {
+        "name": "riderId",
+        "type": "string"
       }
     ],
-    "name": "getRide",
+    "name": "getRiderStatus",
     "outputs": [
       {
         "name": "",
-        "type": "string"
-      },
-      {
-        "name": "",
-        "type": "string"
-      },
-      {
-        "name": "",
-        "type": "string"
-      },
-      {
-        "name": "",
-        "type": "string"
-      },
-      {
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "name": "",
-        "type": "string"
-      },
-      {
-        "name": "",
         "type": "uint8"
-      },
-      {
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "name": "",
-        "type": "uint256"
       }
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "rideId",
-        "type": "string"
-      },
-      {
-        "name": "status",
-        "type": "uint8"
-      }
-    ],
-    "name": "updateRideStatus",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

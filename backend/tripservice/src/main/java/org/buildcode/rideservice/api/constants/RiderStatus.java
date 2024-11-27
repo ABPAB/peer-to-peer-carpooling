@@ -1,6 +1,6 @@
 package org.buildcode.rideservice.api.constants;
 
-public enum RideStatus {
+public enum RiderStatus {
     ACTIVE,
     COMPLETED,
     CANCELED

@@ -28,3 +28,8 @@ springdoc:
     url: /v3/api-docs
     path: /swagger-ui.html
     enabled: true
+
+# Ethereum configuration
+ethereum:
+  contract-address: 0xF9b28e3b0C767c3106fc60dC3eCC584d9e8B8Cd6
+  blockchain-key: 0x70bb690597395cbfdb29b8db91ca5712d3a3d2be10e22d4afe309aeca7953fed
