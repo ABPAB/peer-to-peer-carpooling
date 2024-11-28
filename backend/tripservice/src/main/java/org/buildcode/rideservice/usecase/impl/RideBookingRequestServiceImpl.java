@@ -14,6 +14,7 @@ import org.buildcode.rideservice.usecase.NotificationService;
 import org.buildcode.rideservice.usecase.RideBookingRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.Optional;
 
@@ -39,8 +40,6 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
         BookingRequest bookingRequest = bookingRequestMapper.toBookingRequest(requestModel);
 
         try {
-            // TransactionReceipt blockchainResponse = blockchainService.bookRideRequest();
-
             BookingRequest bookingRequest1 = rideBookingRequestRepository.save(bookingRequest);
 
             return bookingRequestMapper.toBookingRequestResponseModel(bookingRequest1);
@@ -53,8 +52,6 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
     @Override
     public BookingRequestResponseModel getBookingRequest(String bookingRequestId) {
         try {
-            // TransactionReceipt blockchainResponse = blockchainService.bookRideRequest();
-
             Optional<BookingRequest> bookingRequest = rideBookingRequestRepository.findById(bookingRequestId);
 
             if (bookingRequest.isEmpty()) {
@@ -69,14 +66,14 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
     }
 
     @Override
-    public Boolean acceptRideBookingRequest(String bookingRequestId) {
+    public Boolean acceptRideBookingRequest(String bookingRequestId, String ownerId) {
         Optional<BookingRequest> bookingRequest = rideBookingRequestRepository.findById(bookingRequestId);
 
-        if (bookingRequest.isEmpty()) {
-            throw new RideBookingRequestNotFoundException("Booking Request not found!");
-        }
+        BookingRequest br = bookingRequest.orElseThrow(() ->
+                new RideBookingRequestNotFoundException("Booking Request not found!")
+        );
+        TransactionReceipt blockchainResponse = blockchainService.acceptRideRequest(br.getRideId(), ownerId, br.getRiderId());
 
-        BookingRequest br = bookingRequest.get();
 
         if (br.getStatus().equals(BookingRequestStatus.CONFIRMED)) {
             throw new RideBookingRequestCanNotBeAccepted("Can not be accepted, cause it is alredy accepted");
@@ -87,7 +84,7 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
 
         log.info("Booking Request is accepted: {}", br.getBookingRequestId());
 
-        notificationService.sendNotificationToRider(br.getUserId(), "Ride Accepted", "Your ride has been accepted!");
+        notificationService.sendNotificationToRider(br.getRiderId(), "Ride Accepted", "Your ride has been accepted!");
 
         return true;
     }
@@ -111,7 +108,7 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
 
         log.info("Booking Request is rejected: {}", br.getBookingRequestId());
 
-        notificationService.sendNotificationToRider(br.getUserId(), "Ride Rejected", "Your ride has been rejected.");
+        notificationService.sendNotificationToRider(br.getRiderId(), "Ride Rejected", "Your ride has been rejected.");
 
         return true;
     }

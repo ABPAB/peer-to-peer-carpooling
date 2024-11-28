@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.buildcode.rideservice.api.constants.RideStatus;
+import org.buildcode.rideservice.api.constants.RiderStatus;
 
 import java.math.BigInteger;
 
@@ -11,12 +13,12 @@ import java.math.BigInteger;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RideCreatedEventPayload {
-    private String rideId;
+public class RideNotificationPayload {
+    private String riderId;
     private String ownerId;
     private String source;
     private String destination;
     private BigInteger fare;
-    private BigInteger seats;
     private String vehicleNumber;
+    private String riderStatus;
 }

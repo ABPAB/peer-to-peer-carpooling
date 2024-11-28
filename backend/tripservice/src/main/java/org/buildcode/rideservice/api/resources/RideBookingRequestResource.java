@@ -59,7 +59,11 @@ public interface RideBookingRequestResource {
     ResponseEntity<Boolean> acceptRideBookingRequest(
             @Parameter(name = "bookingRequestId", description = "bookingRequestId")
             @Schema(description = "Booking Request ID", example = "8732njsf87yh", required = true)
-            @PathVariable String bookingRequestId
+            @PathVariable String bookingRequestId,
+
+            @Parameter(name = "ownerId", description = "ownerId")
+            @Schema(description = "Owner Id", example = "sdfkfadf", required = true)
+            @PathVariable String ownerId
     );
 
     @Operation(method = "POST", summary = "Reject Ride Request")
