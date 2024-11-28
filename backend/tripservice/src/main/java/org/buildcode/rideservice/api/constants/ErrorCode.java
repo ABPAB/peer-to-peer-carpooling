@@ -6,6 +6,8 @@ public enum ErrorCode {
     RIDE_400("RIDE_400", "Invalid ride request"),
 
     // Booking-related errors
+    SUCCESS_FOR_BOOKING_REQUEST_201("SUCCESS_FOR_BOOKING_REQUEST_201", ApiConstants.MESSAGE_SUCCESS_FOR_BOOKING_REQUEST),
+    BOOKING_REQUEST_ALREADY_EXISTS_409("BOOKING_REQUEST_ALREADY_EXISTS",ApiConstants.MESSAGE_BOOKING_REQUEST_ALREADY_EXISTS),
     BOOKING_404("BOOKING_404", "Booking not found"),
     BOOKING_500("BOOKING_500", "Booking can not be accepted"),
     BOOKING_400("BOOKING_400", "Invalid booking request"),

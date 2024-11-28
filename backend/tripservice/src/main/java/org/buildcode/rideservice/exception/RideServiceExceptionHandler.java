@@ -17,4 +17,14 @@ public class RideServiceExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(RideBookingRequestAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleRideBookingRequestAlreadyExistsException(RideBookingRequestAlreadyExistsException rideBookingRequestAlreadyExistsException) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                rideBookingRequestAlreadyExistsException.getErrorCode(),
+                rideBookingRequestAlreadyExistsException.getMessage(),
+                rideBookingRequestAlreadyExistsException.getDetails()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
 }
