@@ -140,4 +140,66 @@ public class BlockchainServiceImpl implements BlockchainService {
             throw new RuntimeException("Failed to accept ride request on the blockchain", e);
         }
     }
+
+    @Override
+    public TransactionReceipt cancelRide(String rideId, String ownerId) {
+        try {
+            log.info("Cancelling ride with ID: {} by owner ID: {}", rideId, ownerId);
+
+            // Call the smart contract to update ride status to CANCELLED
+            TransactionReceipt transactionReceipt = rideCreationContract
+                    .updateRideStatusByDriver(rideId, ownerId, RideStatus.CANCELLED.getValue())
+                    .send();
+
+            log.info("Ride cancelled successfully. Transaction hash: {}", transactionReceipt.getTransactionHash());
+
+            // Subscribe to the RideUpdatedEvent to handle blockchain events related to the ride update
+            rideCreationContract.rideUpdatedEventFlowable(
+                    DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber()),
+                    DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber())
+            ).subscribe(rideUpdatedEvent -> {
+                log.info("Captured RideUpdatedEvent: {}", rideUpdatedEvent);
+
+                // Build the Kafka payload
+                RideEventPayload payload = RideEventPayload.builder()
+                        .rideId(rideUpdatedEvent.rideId)
+                        .ownerId(rideUpdatedEvent.ownerId)
+                        .seats(rideUpdatedEvent.availableSeats)
+                        .updatedAt(rideUpdatedEvent.updatedAt)
+                        .rideStatus(RideStatus.fromValue(rideUpdatedEvent.status))
+                        .build();
+
+                // Delegate event handling to EventHandlerService
+                eventHandlerService.handleRideUpdatedEvent(payload);
+
+            }, error -> log.error("Error while capturing RideUpdatedEvent: {}", error.getMessage(), error));
+
+            rideCreationContract.sendNotificationEventEventFlowable(
+                    DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber()),
+                    DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber())
+            ).subscribe(notificationEvent -> {
+                log.info("Captured NotificationEvent: {}", notificationEvent);
+
+                RideNotificationPayload notificationPayload = RideNotificationPayload.builder()
+                        .riderId(notificationEvent.riderId)
+                        .ownerId(notificationEvent.ownerId)
+                        .destination(notificationEvent.destination)
+                        .fare(notificationEvent.fare)
+                        .source(notificationEvent.source)
+                        .vehicleNumber(notificationEvent.vehicleNumber)
+                        .riderStatus(notificationEvent.status)
+                        .build();
+
+                eventHandlerService.handleNotificationEvent(notificationPayload);
+
+            }, error -> log.error("Error while capturing NotificationEvent: {}", error.getMessage(), error));
+
+            return transactionReceipt;
+
+        } catch (Exception e) {
+            log.error("Error occurred while cancelling the ride with ID {}: {}", rideId, e.getMessage(), e);
+            throw new RuntimeException("Failed to cancel the ride on the blockchain", e);
+        }
+    }
+
 }

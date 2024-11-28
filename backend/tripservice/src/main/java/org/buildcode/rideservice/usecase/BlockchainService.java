@@ -8,4 +8,6 @@ public interface BlockchainService {
     TransactionReceipt createRide(Ride rideDetails);
 
     TransactionReceipt acceptRideRequest(String rideId, String ownerId, String riderId);
+
+    TransactionReceipt cancelRide(String rideId, String ownerId);
 }

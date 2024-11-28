@@ -65,11 +65,12 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Boolean deleteById(String id) {
+    public Boolean deleteById(String rideId, String ownerId) {
         try {
-            rideRepository.deleteById(id);
+            TransactionReceipt blockchainResponse = blockchainService.cancelRide(rideId, ownerId);
+            rideRepository.deleteById(rideId);
         } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new RideNotFoundException("Ride with ID " + id + " could not be found");
+            throw new RideNotFoundException("Ride with ID " + rideId + " could not be found");
         }
         return true;
     }

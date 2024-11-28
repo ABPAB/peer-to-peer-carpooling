@@ -68,7 +68,10 @@ public interface RideResource {
     ResponseEntity<Boolean> deleteRideRequest(
             @Parameter(name = "id", description = "ride id")
             @Schema(description = "Reference", example = "8732njsf87yh", required = true)
-            @PathVariable String id
+            @PathVariable String id,
+            @Parameter(name = "ownerId", description = "owner id")
+            @Schema(description = "Owner Id", example = "ownerIDdjc", required = true)
+            @PathVariable String ownerId
     );
 
     @ApiResponses(
