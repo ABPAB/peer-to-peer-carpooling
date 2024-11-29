@@ -2,6 +2,7 @@ package org.buildcode.syncservice.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.buildcode.syncservice.data.dto.RideUpdateKafkaPayload;
+import org.buildcode.syncservice.data.entity.Ride;
 import org.buildcode.syncservice.data.mapper.RideMapper;
 import org.buildcode.syncservice.usecase.RideUpdateService;
 import org.json.JSONException;
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class RideUpdateEventListener {
+public class RideCreatedEventListener {
+
     @Autowired
     private RideMapper rideMapper;
 
@@ -20,13 +22,13 @@ public class RideUpdateEventListener {
     private RideUpdateService rideUpdateService;
 
 
-    @KafkaListener(topics = "ride-updated-event", groupId = "update-group")
+    @KafkaListener(topics = "ride-created-event", groupId = "update-group")
     public void listen(final String payload) {
         log.info("Received the request to sync(update) ride data, ride: {}", payload);
         try {
             JSONObject jsonPayload = new JSONObject(payload);
-            RideUpdateKafkaPayload rideUpdateKafkaPayload = rideMapper.toRideUpdateKafkaPayload(jsonPayload);
-            rideUpdateService.update(rideUpdateKafkaPayload);
+            Ride ride = rideMapper.toRideUpdateKafkaPayload(jsonPayload);
+            rideUpdateService.update(ride);
         } catch (JSONException jsonException) {
             log.error("Invalid message received: {}", jsonException.getMessage());
         } catch (Exception ex) {

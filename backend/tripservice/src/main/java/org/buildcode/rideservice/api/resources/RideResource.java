@@ -37,7 +37,7 @@ public interface RideResource {
     )
     @Operation(method = "POST", summary = "Create Ride")
     @PostMapping("/")
-    ResponseEntity<Ride> createRideRequest(
+    ResponseEntity<String> createRideRequest(
             @RequestBody CreateRideRequestModel createRideRequestModel
     );
 

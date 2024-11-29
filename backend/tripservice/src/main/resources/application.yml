@@ -31,5 +31,5 @@ springdoc:
 
 # Ethereum configuration
 ethereum:
-  contract-address: 0x97C4FB587C660Fb0410578c94278377fEb80243A
-  blockchain-key: 0x3c9f11bd5043775abe2b65494c19ea4fae820bb7f96a52dc061da1c4bc288aa5
+  contract-address: 0x2D775eA6e0163f701F5481a6C0621EDD8841E4A1
+  blockchain-key: 0x70d2e3a11fe294288df4c1ce72015054d16c23268a442004be044edbb118331b

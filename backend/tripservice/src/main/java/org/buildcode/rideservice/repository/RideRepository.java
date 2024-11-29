@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface RideRepository extends JpaRepository<Ride, String> {
-    public boolean existsByUserIdAndAndStatus(String userId, RideStatus status);
+
+    public boolean existsByOwnerIdAndAndStatus(String ownerId, RideStatus status);
 }

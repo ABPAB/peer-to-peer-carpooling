@@ -1,8 +1,6 @@
 package org.buildcode.rideservice.usecase.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.buildcode.rideservice.api.config.EthereumConfig;
 import org.buildcode.rideservice.api.constants.KafkaConstants;
 import org.buildcode.rideservice.api.constants.RideStatus;
 import org.buildcode.rideservice.contracts.RideCreation;
@@ -11,7 +9,6 @@ import org.buildcode.rideservice.data.dto.RideNotificationPayload;
 import org.buildcode.rideservice.data.entity.Ride;
 import org.buildcode.rideservice.usecase.BlockchainService;
 import org.buildcode.rideservice.usecase.EventHandlerService;
-import org.buildcode.rideservice.usecase.KafkaEventProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Credentials;
@@ -24,22 +21,33 @@ import org.web3j.tx.gas.DefaultGasProvider;
 @Slf4j
 public class BlockchainServiceImpl implements BlockchainService {
 
+    private final String contractAddress = "0x27E642aC8Eb62f19213A6e3D0C90AB7e487593c1";
+
+    private final String blockchainKey = "0xa75f16141f24f45d92ed785fb1180d64718901beb59637005c586bb21103fe38";
+
     private final RideCreation rideCreationContract;
 
-    @Autowired
-    private EventHandlerService eventHandlerService;
+    private final EventHandlerService eventHandlerService;
+
+    private final Web3j web3j;
 
     @Autowired
-    public BlockchainServiceImpl(Web3j web3j, EthereumConfig ethereumConfig) {
-        Credentials credentials = Credentials.create(ethereumConfig.getBlockchainKey());
+    public BlockchainServiceImpl(
+            EventHandlerService eventHandlerService,
+            Web3j web3j
+    ) {
+        this.eventHandlerService = eventHandlerService;
+        this.web3j = web3j;
+
+        Credentials credentials = Credentials.create(blockchainKey);
         this.rideCreationContract = RideCreation.load(
-                ethereumConfig.getContractAddress(),
+                contractAddress,
                 web3j,
                 credentials,
                 new DefaultGasProvider()
         );
 
-        log.info("BlockchainServiceImpl initialized with contract address: {}", ethereumConfig.getContractAddress());
+        log.info("BlockchainServiceImpl initialized with contract address: {}", contractAddress);
     }
 
     @Override

@@ -21,11 +21,11 @@ public class RideController implements RideResource {
 
 
     @Override
-    public ResponseEntity<Ride> createRideRequest(CreateRideRequestModel createRideRequestModel) {
+    public ResponseEntity<String> createRideRequest(CreateRideRequestModel createRideRequestModel) {
         log.info("Got the request for create ride: {}", createRideRequestModel);
-        Ride ride = rideService.createRide(createRideRequestModel);
-        log.info("Created the ride: {}", ride);
-        return new ResponseEntity<Ride>(ride, HttpStatus.CREATED);
+        String id = rideService.createRide(createRideRequestModel);
+        log.info("Created the ride: {}", id);
+        return new ResponseEntity<String>(id, HttpStatus.CREATED);
     }
 
     @Override

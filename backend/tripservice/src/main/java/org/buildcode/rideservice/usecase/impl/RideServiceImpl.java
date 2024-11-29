@@ -36,7 +36,7 @@ public class RideServiceImpl implements RideService {
 
     public void validateRide(Ride ride) {
         StringBuilder missingFields = new StringBuilder();
-        if(ride.getUserId() == null || ride.getUserId().isEmpty()) {
+        if(ride.getOwnerId() == null || ride.getOwnerId().isEmpty()) {
             missingFields.append("User's id is required. ");
         }
         if(ride.getDestination() == null || ride.getDestination().isEmpty()) {
@@ -52,29 +52,33 @@ public class RideServiceImpl implements RideService {
             throw new RideValidationException(missingFields.toString());
         }
         //assuming one can create only one ride at a time
-        if(rideRepository.existsByUserIdAndAndStatus(ride.getUserId(), RideStatus.CREATED)){
+        if(rideRepository.existsByOwnerIdAndAndStatus(ride.getOwnerId(), RideStatus.ACTIVE)){
             throw new RideAlreadyExistsException(ApiConstants.MESSAGE_RIDE_ALREADY_EXISTS);
         }
-
     }
 
 
     @Override
-    public Ride createRide(CreateRideRequestModel createRideRequestModel) {
-        Ride newRide = rideMapper.toRide(createRideRequestModel);
+    public String createRide(CreateRideRequestModel createRideRequestModel) {
+        String uuid = generateUUID();
+
+        Ride toBeCreated = rideMapper.toRide(createRideRequestModel, uuid);
 
         try {
-            validateRide(newRide);
-            // add into blockchain
-            TransactionReceipt blockchainResponse = blockchainService.createRide(newRide);
+            validateRide(toBeCreated);
 
-            // assign the initial status
-            newRide.setStatus(RideStatus.ACTIVE);
-            return rideRepository.save(newRide);
+            // add into blockchain
+            TransactionReceipt transactionReceipt = blockchainService.createRide(toBeCreated);
+
+            return uuid;
         } catch (Exception ex) {
             log.error("Exception occurred while creating ride: {}", ex.getMessage());
             throw ex;
         }
+    }
+
+    private String generateUUID() {
+        return "adsfa";
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.buildcode.rideservice;
 import org.buildcode.rideservice.contracts.RideCreation;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.crypto.Credentials;
 import org.web3j.tx.gas.DefaultGasProvider;
@@ -16,10 +17,10 @@ public class TestRideCreation {
             Web3j web3j = Web3j.build(new HttpService("http://localhost:8545"));
 
             // Use the credentials of the account deploying the contract
-            Credentials credentials = Credentials.create("0x3c9f11bd5043775abe2b65494c19ea4fae820bb7f96a52dc061da1c4bc288aa5");
+            Credentials credentials = Credentials.create("0x70d2e3a11fe294288df4c1ce72015054d16c23268a442004be044edbb118331b");
 
             // Deployed contract address
-            String contractAddress = "0x97C4FB587C660Fb0410578c94278377fEb80243A";
+            String contractAddress = "0x2D775eA6e0163f701F5481a6C0621EDD8841E4A1";
 
             // Create a contract instance
             RideCreation rideCreationContract = RideCreation.load(
@@ -35,13 +36,13 @@ public class TestRideCreation {
             String vehicleNumber = "XYZ1234"; // Dummy Vehicle Number
 
             // Call the `createRide` function
-//            RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(rideId, ownerId, source, destination, BigInteger.valueOf(fare), BigInteger.valueOf(availableSeats), vehicleNumber);
+            RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(rideId, ownerId, source, destination, BigInteger.valueOf(fare), BigInteger.valueOf(availableSeats), vehicleNumber);
 //            RemoteCall<TransactionReceipt> update = rideCreationContract.updateRideStatusByDriver(rideId, ownerId, BigInteger.valueOf(1));
 //            RemoteCall<TransactionReceipt> update = rideCreationContract.acceptRideByOwner(rideId, ownerId, "rider1234");
 //            RemoteCall<TransactionReceipt> update = rideCreationContract.cancelRideByRider(rideId, "rider1234");
-            RemoteCall<BigInteger> update = rideCreationContract.getRiderStatus(rideId, "rider1234");
-//            TransactionReceipt receipt = update.send();
-            BigInteger receipt = update.send();
+//            RemoteCall<BigInteger> update = rideCreationContract.getRiderStatus(rideId, "rider1234");
+            TransactionReceipt receipt = transaction.send();
+//            BigInteger receipt = update.send();
             System.out.println("Ride created with transaction hash: " + receipt);
         } catch (Exception e) {
             e.printStackTrace();

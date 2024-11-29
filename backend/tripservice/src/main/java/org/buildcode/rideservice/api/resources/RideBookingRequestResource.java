@@ -69,7 +69,7 @@ public interface RideBookingRequestResource {
             }
     )
     @Operation(method = "POST", summary = "Accept Ride Booking Request")
-    @PostMapping("/{bookingRequestId}/accept")
+    @PostMapping("/{bookingRequestId}/accept/{ownerId}")
     ResponseEntity<Boolean> acceptRideBookingRequest(
             @Parameter(name = "bookingRequestId", description = "bookingRequestId")
             @Schema(description = "Booking Request ID", example = "8732njsf87yh", required = true)
