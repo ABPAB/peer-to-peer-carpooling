@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.buildcode.rideservice.api.constants.ApiConstants;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestResponseModel;
@@ -37,7 +38,7 @@ public interface RideBookingRequestResource {
     @Operation(method = "POST", summary = "Create booking request")
     @PostMapping
     ResponseEntity<BookingRequestResponseModel> createBookingRequest(
-            @RequestBody BookingRequestModel requestModel
+             @RequestBody BookingRequestModel requestModel
     );
 
 
