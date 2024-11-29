@@ -6,6 +6,7 @@ import org.buildcode.rideservice.api.constants.ApiConstants;
 import org.buildcode.rideservice.api.constants.RideStatus;
 import org.buildcode.rideservice.api.model.v1_0.CreateRideRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.RideResponseModel;
+import org.buildcode.rideservice.data.dto.RideCreatedResponsePayload;
 import org.buildcode.rideservice.data.entity.Ride;
 import org.buildcode.rideservice.data.mapper.RideMapper;
 import org.buildcode.rideservice.exception.RideAlreadyExistsException;
@@ -60,7 +61,7 @@ public class RideServiceImpl implements RideService {
 
 
     @Override
-    public String createRide(CreateRideRequestModel createRideRequestModel) {
+    public RideCreatedResponsePayload createRide(CreateRideRequestModel createRideRequestModel) {
         String uuid = generateUUID();
 
         Ride toBeCreated = rideMapper.toRide(createRideRequestModel, uuid);
@@ -69,9 +70,8 @@ public class RideServiceImpl implements RideService {
             validateRide(toBeCreated);
 
             // add into blockchain
-            TransactionReceipt transactionReceipt = blockchainService.createRide(toBeCreated);
 
-            return uuid;
+            return blockchainService.createRide(toBeCreated);
         } catch (Exception ex) {
             log.error("Exception occurred while creating ride: {}", ex.getMessage());
             throw ex;

@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.buildcode.rideservice.api.constants.RideStatus;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Instant;
 
@@ -44,4 +43,10 @@ public class CreateRideRequestModel {
 
     @Schema(description = "fare for the ride created", example= "1000")
     private BigInteger fare;
+
+    @Schema(description = "departureTime for the ride", example= "9:53AM")
+    private BigInteger departureTime;
+
+    @Schema(description = "departureDate for the ride", example= "23/10/25")
+    private BigInteger departureDate;
 }

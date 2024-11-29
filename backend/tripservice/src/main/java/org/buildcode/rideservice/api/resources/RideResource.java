@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.buildcode.rideservice.api.constants.ApiConstants;
 import org.buildcode.rideservice.api.model.v1_0.CreateRideRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.RideResponseModel;
+import org.buildcode.rideservice.data.dto.RideCreatedResponsePayload;
 import org.buildcode.rideservice.data.entity.Ride;
 import org.springframework.http.ResponseEntity;
 
@@ -37,7 +38,7 @@ public interface RideResource {
     )
     @Operation(method = "POST", summary = "Create Ride")
     @PostMapping("/")
-    ResponseEntity<String> createRideRequest(
+    ResponseEntity<RideCreatedResponsePayload> createRideRequest(
             @RequestBody CreateRideRequestModel createRideRequestModel
     );
 

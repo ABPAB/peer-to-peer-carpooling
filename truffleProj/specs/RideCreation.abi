@@ -3,44 +3,51 @@
     "anonymous": false,
     "inputs": [
       {
+        "components": [
+          {
+            "name": "rideId",
+            "type": "string"
+          },
+          {
+            "name": "ownerId",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "name": "fare",
+            "type": "uint256"
+          },
+          {
+            "name": "availableSeats",
+            "type": "uint256"
+          },
+          {
+            "name": "vehicleNumber",
+            "type": "string"
+          },
+          {
+            "name": "departureTime",
+            "type": "string"
+          },
+          {
+            "name": "departureDate",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
         "indexed": false,
-        "name": "rideId",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "ownerId",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "source",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "destination",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "fare",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "availableSeats",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "vehicleNumber",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "status",
-        "type": "uint8"
+        "name": "rideDetails",
+        "type": "tuple"
       }
     ],
     "name": "RideCreated",
@@ -120,6 +127,16 @@
         "indexed": false,
         "name": "vehicleNumber",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "departureTime",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "departureDate",
+        "type": "string"
       }
     ],
     "name": "SendNotificationEvent",
@@ -154,6 +171,14 @@
       },
       {
         "name": "vehicleNumber",
+        "type": "string"
+      },
+      {
+        "name": "departureTime",
+        "type": "string"
+      },
+      {
+        "name": "departureDate",
         "type": "string"
       }
     ],
@@ -242,6 +267,67 @@
       {
         "name": "",
         "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "rideId",
+        "type": "string"
+      }
+    ],
+    "name": "getRideDetails",
+    "outputs": [
+      {
+        "components": [
+          {
+            "name": "rideId",
+            "type": "string"
+          },
+          {
+            "name": "ownerId",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "name": "fare",
+            "type": "uint256"
+          },
+          {
+            "name": "availableSeats",
+            "type": "uint256"
+          },
+          {
+            "name": "vehicleNumber",
+            "type": "string"
+          },
+          {
+            "name": "departureTime",
+            "type": "string"
+          },
+          {
+            "name": "departureDate",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "name": "",
+        "type": "tuple"
       }
     ],
     "payable": false,
