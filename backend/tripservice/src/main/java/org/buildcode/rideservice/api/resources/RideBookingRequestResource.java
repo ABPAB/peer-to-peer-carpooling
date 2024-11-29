@@ -28,6 +28,9 @@ public interface RideBookingRequestResource {
             value = {
                     @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
                     @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
+                    @ApiResponse(responseCode = "403", description = ApiConstants.ACCESS_DENIED_FOR_OWNER_ACCESS_TO_BOOKING_REQUEST),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.RIDE_REQUESTED_NOT_FOUND),
+                    @ApiResponse(responseCode = "409", description = ApiConstants.MESSAGE_BOOKING_REQUEST_ALREADY_EXISTS),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
             }
     )
@@ -40,10 +43,10 @@ public interface RideBookingRequestResource {
 
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
-                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
-                    @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
-                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_NOT_FOUND)
+                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_BOOKING_REQUEST_RETRIEVED_SUCCESSFULLY),
+                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_INVALID_BOOKING_REQUEST_ID),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_BOOKING_REQUEST_NOT_FOUND),
+                    @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR)
             }
     )
     @Operation(method = "GET", summary = "Get booking request details by id")
@@ -54,6 +57,16 @@ public interface RideBookingRequestResource {
             @PathVariable String bookingRequestId
     );
 
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_BOOKING_ACCEPTED),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_BOOKING_REQUEST_TO_ACCEPT_NOT_FOUND),
+                    @ApiResponse(responseCode = "403", description = ApiConstants.MESSAGE_ACCESS_DENIED_FOR_RIDER_TO_ACCEPT_BOOKING_REQUEST),
+                    @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
+                    @ApiResponse(responseCode = "409", description = ApiConstants.MESSAGE_BOOKING_CONFLICT),
+                    @ApiResponse(responseCode = "410", description = ApiConstants.MESSAGE_BOOKING_REQUEST_GONE),
+            }
+    )
     @Operation(method = "POST", summary = "Accept Ride Booking Request")
     @PostMapping("/{bookingRequestId}/accept")
     ResponseEntity<Boolean> acceptRideBookingRequest(
@@ -62,6 +75,15 @@ public interface RideBookingRequestResource {
             @PathVariable String bookingRequestId
     );
 
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_BOOKING_REQUEST_REJECTED),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_BOOKING_REQUEST_TO_REJECT_NOT_FOUND),
+                    @ApiResponse(responseCode = "403", description = ApiConstants.MESSAGE_ACCESS_DENIED_FOR_RIDER_TO_REJECT_BOOKING_REQUEST),
+                    @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
+                    @ApiResponse(responseCode = "410", description = ApiConstants.MESSAGE_BOOKING_REQUEST_GONE),
+            }
+    )
     @Operation(method = "POST", summary = "Reject Ride Request")
     @PostMapping("/{bookingRequestId}/reject")
     ResponseEntity<Boolean> rejectRideBookingRequest(
