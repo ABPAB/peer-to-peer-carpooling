@@ -6,6 +6,7 @@ import org.buildcode.rideservice.api.model.v1_0.BookingRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestResponseModel;
 import org.buildcode.rideservice.data.entity.BookingRequest;
 import org.buildcode.rideservice.data.mapper.BookingRequestMapper;
+import org.buildcode.rideservice.exception.RideBookingRequestAlreadyExistsException;
 import org.buildcode.rideservice.exception.RideBookingRequestCanNotBeAccepted;
 import org.buildcode.rideservice.exception.RideBookingRequestNotFoundException;
 import org.buildcode.rideservice.repository.RideBookingRequestRepository;
@@ -15,6 +16,7 @@ import org.buildcode.rideservice.usecase.RideBookingRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,8 +42,14 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
 
         try {
             // TransactionReceipt blockchainResponse = blockchainService.bookRideRequest();
-
-            BookingRequest bookingRequest1 = rideBookingRequestRepository.save(bookingRequest);
+            String userId = requestModel.getUserId();
+            String rideId = requestModel.getRideId();
+            BookingRequest bookingRequest1 = null;
+            if(!rideBookingRequestRepository.existsByUserIdAndRideId(userId, rideId)) {
+                bookingRequest1 = rideBookingRequestRepository.save(bookingRequest);
+            } else {
+                throw new RideBookingRequestAlreadyExistsException("Entity already exists for userId: " + userId);
+            }
 
             return bookingRequestMapper.toBookingRequestResponseModel(bookingRequest1);
         } catch (Exception ex) {

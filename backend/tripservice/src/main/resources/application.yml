@@ -8,7 +8,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/tripDB
     username: root
-    password: pawan
+    password: Saplabs98765432
 
   jpa:
     show-sql: true

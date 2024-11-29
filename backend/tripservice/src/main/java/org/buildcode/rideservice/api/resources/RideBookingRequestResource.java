@@ -26,7 +26,7 @@ public interface RideBookingRequestResource {
 
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
+                    @ApiResponse(responseCode = "201", description = ApiConstants.MESSAGE_SUCCESS_FOR_BOOKING_REQUEST),
                     @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
                     @ApiResponse(responseCode = "403", description = ApiConstants.ACCESS_DENIED_FOR_OWNER_ACCESS_TO_BOOKING_REQUEST),
                     @ApiResponse(responseCode = "404", description = ApiConstants.RIDE_REQUESTED_NOT_FOUND),

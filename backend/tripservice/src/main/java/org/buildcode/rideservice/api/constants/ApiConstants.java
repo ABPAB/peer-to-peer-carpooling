@@ -38,7 +38,6 @@ public class ApiConstants {
     public final static String INVALID_BOOKING_REQUEST_DATA = "MESSAGE_INVALID_BOOKING_REQUEST_DATA";
     public final static String ROOM_UNAVAILABLE = "ROOM_UNAVAILABLE";
 
-
     public final static String MESSAGE_SUCCESS = "Success";
     public final static String MESSAGE_BAD_REQUEST = "Bad Request";
     public final static String MESSAGE_UNAUTHORIZED = "Unauthorized";
