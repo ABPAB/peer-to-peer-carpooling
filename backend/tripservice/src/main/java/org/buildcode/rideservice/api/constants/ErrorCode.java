@@ -2,8 +2,9 @@ package org.buildcode.rideservice.api.constants;
 
 public enum ErrorCode {
     // Ride-related errors
-    RIDE_404("RIDE_404", "Ride not found"),
-    RIDE_400("RIDE_400", "Invalid ride request"),
+    RIDE_404("RIDE_404", ApiConstants.MESSAGE_RIDE_NOT_FOUND),
+    RIDE_400("RIDE_400", ApiConstants.MESSAGE_INVALID_RIDE),
+    RIDE_ALREADY_EXISTS_409("RIDE_ALREADY_EXISTS_409", "Ride already exists"),
 
     // Booking-related errors
     SUCCESS_FOR_BOOKING_REQUEST_201("SUCCESS_FOR_BOOKING_REQUEST_201", ApiConstants.MESSAGE_SUCCESS_FOR_BOOKING_REQUEST),

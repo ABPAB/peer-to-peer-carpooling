@@ -62,4 +62,24 @@ public class RideServiceExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(RideValidationException.class)
+    public ResponseEntity<ErrorResponse> handleRideValidationException(RideValidationException exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                exception.getErrorCode(),
+                exception.getMessage(),
+                exception.getDetails()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RideAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleRideAlreadyExistsException(RideAlreadyExistsException exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                exception.getErrorCode(),
+                exception.getMessage(),
+                exception.getDetails()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
 }

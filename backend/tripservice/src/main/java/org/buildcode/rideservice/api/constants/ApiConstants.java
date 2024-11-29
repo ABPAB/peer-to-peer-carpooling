@@ -10,6 +10,13 @@ public class ApiConstants {
     public final static String BOOKING_REQUEST = "/request";
     public final static String RIDE_DEVICE = "/device";
 
+    //RIDEs
+    public final static String MESSAGE_CREATED_FOR_RIDE = "Ride created successfully";
+    public final static String MESSAGE_INVALID_RIDE = "Invalid ride request";
+    public final static String MESSAGE_RIDE_NOT_FOUND = "Ride not found";
+    public final static String MESSAGE_RIDE_ALREADY_EXISTS = "You have already created a ride and cannot make another request until the current one is resolved";
+
+
     public final static String MESSAGE_SUCCESS_FOR_BOOKING_REQUEST = "Booking request created successfully";
     public final static String ACCESS_DENIED_FOR_OWNER_ACCESS_TO_BOOKING_REQUEST = "Access Denied. You do not have permission to create a booking request.";
     public final static String MESSAGE_BOOKING_REQUEST_ALREADY_EXISTS = "You have already requested a ride and cannot make another request until the current one is resolved";
