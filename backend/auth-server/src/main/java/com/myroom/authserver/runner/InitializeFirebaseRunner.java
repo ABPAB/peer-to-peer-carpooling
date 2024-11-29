@@ -17,7 +17,7 @@ public class InitializeFirebaseRunner implements ApplicationRunner {
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.getApplicationDefault())
-                .setProjectId("projectId")
+                .setProjectId("car-pooling-app-bits")
                 .build();
         FirebaseApp.initializeApp(options);
 
