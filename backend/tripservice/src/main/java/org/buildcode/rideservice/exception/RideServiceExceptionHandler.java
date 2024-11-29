@@ -33,6 +33,16 @@ public class RideServiceExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(RideBookingRequestNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRideBookingRequestNotFoundException(RideBookingRequestNotFoundException rideBookingRequestNotFoundException) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                rideBookingRequestNotFoundException.getErrorCode(),
+                rideBookingRequestNotFoundException.getMessage(),
+                rideBookingRequestNotFoundException.getDetails()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler({ InvalidBookingRequestDataException.class })
     public ResponseEntity<ErrorResponse> handleInvalidBookingRequestDataException(InvalidBookingRequestDataException exception){
         ErrorResponse errorResponse = new ErrorResponse(
@@ -41,5 +51,15 @@ public class RideServiceExceptionHandler {
                 exception.getDetails()
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RideBookingRequestCanNotBeAccepted.class)
+    public ResponseEntity<ErrorResponse> handleRideBookingRequestCanNotBeAccepted(RideBookingRequestCanNotBeAccepted exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                exception.getErrorCode(),
+                exception.getMessage(),
+                exception.getDetails()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }

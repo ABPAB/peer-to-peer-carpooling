@@ -81,7 +81,7 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
             Optional<BookingRequest> bookingRequest = rideBookingRequestRepository.findById(bookingRequestId);
 
             if (bookingRequest.isEmpty()) {
-                throw new RideBookingRequestNotFoundException("Ride Book Request Not Found");
+                throw new RideBookingRequestNotFoundException("Ride Book request with id: "+bookingRequestId+" not Found");
             }
 
             return bookingRequestMapper.toBookingRequestResponseModel(bookingRequest.get());
@@ -96,13 +96,13 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
         Optional<BookingRequest> bookingRequest = rideBookingRequestRepository.findById(bookingRequestId);
 
         if (bookingRequest.isEmpty()) {
-            throw new RideBookingRequestNotFoundException("Booking Request not found!");
+            throw new RideBookingRequestNotFoundException("Ride booking request with id: "+bookingRequestId+" not Found");
         }
 
         BookingRequest br = bookingRequest.get();
 
         if (br.getStatus().equals(BookingRequestStatus.CONFIRMED)) {
-            throw new RideBookingRequestCanNotBeAccepted("Can not be accepted, cause it is alredy accepted");
+            throw new RideBookingRequestCanNotBeAccepted("Ride booking request already accepted");
         }
 
         br.setStatus(BookingRequestStatus.CONFIRMED);
@@ -120,13 +120,14 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
         Optional<BookingRequest> bookingRequest = rideBookingRequestRepository.findById(bookingRequestId);
 
         if (bookingRequest.isEmpty()) {
-            throw new RideBookingRequestNotFoundException("Booking Request not found!");
+            throw new RideBookingRequestNotFoundException("Ride booking request with id:" +bookingRequestId+ " not Found");
         }
 
         BookingRequest br = bookingRequest.get();
 
+        //is this correct
         if (br.getStatus().equals(BookingRequestStatus.CONFIRMED)) {
-            throw new RideBookingRequestCanNotBeAccepted("Can not be accepted, cause it is alredy accepted");
+            throw new RideBookingRequestCanNotBeAccepted("Ride booking request already rejected");
         }
 
         br.setStatus(BookingRequestStatus.REJECTED);
