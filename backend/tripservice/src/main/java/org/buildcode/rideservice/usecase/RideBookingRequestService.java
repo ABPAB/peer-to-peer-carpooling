@@ -9,7 +9,7 @@ public interface RideBookingRequestService {
 
     BookingRequestResponseModel getBookingRequest(String bookingRequestId);
 
-    Boolean acceptRideBookingRequest(String bookingRequestId);
+    Boolean acceptRideBookingRequest(String bookingRequestId, String ownerId);
 
     Boolean rejectRideBookingRequest(String bookingRequestId);
 }

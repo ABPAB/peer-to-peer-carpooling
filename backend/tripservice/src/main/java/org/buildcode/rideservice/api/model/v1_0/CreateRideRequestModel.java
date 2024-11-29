@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.buildcode.rideservice.api.constants.RideStatus;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.Instant;
 
 @Data
@@ -26,7 +28,7 @@ public class CreateRideRequestModel {
     private String userId;
 
     @Schema(description = "Number of seats requested", example = "2")
-    private Integer seats;
+    private BigInteger seats;
 
     @Schema(description = "Model of the car for the ride", example = "Toyota Prius")
     private String carModel;
@@ -39,4 +41,7 @@ public class CreateRideRequestModel {
 
     @Schema(description = "Timestamp when the ride request was last updated", example = "2023-08-01T12:45:30Z")
     private Instant updatedAt;
+
+    @Schema(description = "fare for the ride created", example= "1000")
+    private BigInteger fare;
 }

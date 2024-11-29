@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.buildcode.rideservice.api.constants.RideStatus;
 
+import java.math.BigInteger;
 import java.time.Instant;
 
 @Data
@@ -27,13 +28,16 @@ public class RideResponseModel {
     private String userId;
 
     @Schema(description = "Number of seats", example = "10")
-    private Integer seats;
+    private BigInteger seats;
 
-    @Schema(description = "Car Model", example = "TATA")
-    private String carModel;
+    @Schema(description = "vehicleNumber", example = "XADSF000DFA")
+    private String vehicleNumber;
 
     @Schema(description = "Current status of the ride", example = "ACTIVE")
     private RideStatus status;
+
+    @Schema(description = "fare for the ride", example = "1000")
+    private BigInteger fare;
 
     @Schema(description = "Date and time when the ride was created", example = "2024-11-09T12:00:00")
     private Instant createdAt;

@@ -15,7 +15,7 @@ public class BookingRequestMapper {
         bookingRequestResponseModel.setStatus(bookingRequest.getStatus());
         bookingRequestResponseModel.setCreatedAt(bookingRequest.getCreatedAt());
         bookingRequestResponseModel.setUpdatedAt(bookingRequest.getUpdatedAt());
-        bookingRequestResponseModel.setUserId(bookingRequest.getUserId());
+        bookingRequestResponseModel.setRiderId(bookingRequest.getRiderId());
 
         return bookingRequestResponseModel;
     }
@@ -24,7 +24,7 @@ public class BookingRequestMapper {
         BookingRequest bookingRequest = new BookingRequest();
         bookingRequest.setRideId(bookingRequestModel.getRideId());
         bookingRequest.setStatus(BookingRequestStatus.REQUESTED);
-        bookingRequest.setUserId(bookingRequestModel.getUserId());
+        bookingRequest.setRiderId(bookingRequestModel.getRiderId());
         return bookingRequest;
     }
 }

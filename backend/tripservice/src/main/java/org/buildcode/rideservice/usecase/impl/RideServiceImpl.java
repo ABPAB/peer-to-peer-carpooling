@@ -66,11 +66,10 @@ public class RideServiceImpl implements RideService {
         try {
             validateRide(newRide);
             // add into blockchain
-            TransactionReceipt blockchainResponse = blockchainService.createRide();
+            TransactionReceipt blockchainResponse = blockchainService.createRide(newRide);
 
             // assign the initial status
-            newRide.setStatus(RideStatus.CREATED);
-
+            newRide.setStatus(RideStatus.ACTIVE);
             return rideRepository.save(newRide);
         } catch (Exception ex) {
             log.error("Exception occurred while creating ride: {}", ex.getMessage());
@@ -94,11 +93,12 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Boolean deleteById(String id) {
+    public Boolean deleteById(String rideId, String ownerId) {
         try {
-            rideRepository.deleteById(id);
+            TransactionReceipt blockchainResponse = blockchainService.cancelRide(rideId, ownerId);
+            rideRepository.deleteById(rideId);
         } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new RideNotFoundException("Ride with ID " + id + " could not be found");
+            throw new RideNotFoundException("Ride with ID " + rideId + " could not be found");
         }
         return true;
     }

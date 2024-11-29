@@ -21,8 +21,8 @@ public class BookingRequest {
     )
     private String bookingRequestId;
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
+    @Column(name = "riderId", nullable = false)
+    private String riderId;
 
     @Column(name = "rideId", nullable = false)
     private String rideId;

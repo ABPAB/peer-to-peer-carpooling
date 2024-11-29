@@ -10,5 +10,5 @@ public interface RideService {
 
     RideResponseModel getRideById(String id);
 
-    Boolean deleteById(String id);
+    Boolean deleteById(String rideId, String ownerId);
 }

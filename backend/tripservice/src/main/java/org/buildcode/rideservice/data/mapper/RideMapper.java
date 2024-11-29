@@ -12,9 +12,10 @@ public class RideMapper {
         Ride ride = new Ride();
         ride.setSource(createRideRequestModel.getSource());
         ride.setDestination(createRideRequestModel.getDestination());
-        ride.setUserId(createRideRequestModel.getUserId());
+        ride.setOwnerId(createRideRequestModel.getUserId());
         ride.setSeats(createRideRequestModel.getSeats());
-        ride.setCarModel(createRideRequestModel.getCarModel());
+        ride.setVehicleNumber(createRideRequestModel.getCarModel());
+        ride.setFare(createRideRequestModel.getFare());
         return ride;
     }
 
@@ -23,12 +24,13 @@ public class RideMapper {
         responseModel.setId(ride.getId());
         responseModel.setSource(ride.getSource());
         responseModel.setDestination(ride.getDestination());
-        responseModel.setUserId(ride.getUserId());
+        responseModel.setUserId(ride.getOwnerId());
         responseModel.setSeats(ride.getSeats());
-        responseModel.setCarModel(ride.getCarModel());
+        responseModel.setVehicleNumber(ride.getVehicleNumber());
         responseModel.setStatus(ride.getStatus());
         responseModel.setCreatedAt(ride.getCreatedAt());
         responseModel.setUpdatedAt(ride.getUpdatedAt());
+        responseModel.setFare(ride.getFare());
         return responseModel;
     }
 }
