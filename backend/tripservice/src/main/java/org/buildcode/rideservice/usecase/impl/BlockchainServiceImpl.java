@@ -21,9 +21,9 @@ import org.web3j.tx.gas.DefaultGasProvider;
 @Slf4j
 public class BlockchainServiceImpl implements BlockchainService {
 
-    private final String contractAddress = "0x27E642aC8Eb62f19213A6e3D0C90AB7e487593c1";
+    private final String contractAddress = "0x85F2F557C885171F4dfe09F81B393b78dE22a7B3";
 
-    private final String blockchainKey = "0xa75f16141f24f45d92ed785fb1180d64718901beb59637005c586bb21103fe38";
+    private final String blockchainKey = "0x85f54494add3ad14dff1ebc4aeb12fc42591e56f3531b50363f4a6211f78696f";
 
     private final RideCreation rideCreationContract;
 
@@ -83,7 +83,18 @@ public class BlockchainServiceImpl implements BlockchainService {
                         .rideStatus(RideStatus.fromValue(rideCreatedEvent.status))
                         .build();
 
+                RideNotificationPayload notificationPayload = RideNotificationPayload.builder()
+                        .ownerId(rideCreatedEvent.ownerId)
+                        .destination(rideCreatedEvent.destination)
+                        .fare(rideCreatedEvent.fare)
+                        .source(rideCreatedEvent.source)
+                        .vehicleNumber(rideCreatedEvent.vehicleNumber)
+                        .build();
+
+                log.info("sending notification payload: {}", notificationPayload);
+
                 eventHandlerService.handleRideCreatedEvent(payload, KafkaConstants.RIDE_CREATED_TOPIC);
+                eventHandlerService.handleNotificationEvent(notificationPayload, KafkaConstants.SEND_NOTIFICATION_EVENT);
 
             }, error -> log.error("Error while capturing RideCreatedEvent: {}", error.getMessage(), error));
 
@@ -137,7 +148,7 @@ public class BlockchainServiceImpl implements BlockchainService {
                         .riderStatus(notificationEvent.status)
                         .build();
 
-                eventHandlerService.handleNotificationEvent(notificationPayload);
+                eventHandlerService.handleNotificationEvent(notificationPayload, KafkaConstants.SEND_NOTIFICATION_EVENT);
 
             }, error -> log.error("Error while capturing NotificationEvent: {}", error.getMessage(), error));
 
@@ -198,7 +209,7 @@ public class BlockchainServiceImpl implements BlockchainService {
                         .riderStatus(notificationEvent.status)
                         .build();
 
-                eventHandlerService.handleNotificationEvent(notificationPayload);
+                eventHandlerService.handleNotificationEvent(notificationPayload, KafkaConstants.SEND_NOTIFICATION_EVENT);
 
             }, error -> log.error("Error while capturing NotificationEvent: {}", error.getMessage(), error));
 

@@ -40,10 +40,10 @@ public class EventHandlerServiceImpl implements EventHandlerService {
         }
     }
 
-    public void handleNotificationEvent(RideNotificationPayload payload) {
+    public void handleNotificationEvent(RideNotificationPayload payload, String topic) {
         try {
             String notificationEventPayloadJson = objectMapper.writeValueAsString(payload);
-            kafkaEventProducerService.sendEvent(KafkaConstants.SEND_NOTIFICATION_EVENT, payload.getRiderId(), notificationEventPayloadJson);
+            kafkaEventProducerService.sendEvent(topic, payload.getRiderId(), notificationEventPayloadJson);
             log.info("RideNotificationEvent successfully sent to Kafka.");
         } catch (Exception e) {
             log.error("Error serializing RideNotificationEventPayload: {}", e.getMessage(), e);
