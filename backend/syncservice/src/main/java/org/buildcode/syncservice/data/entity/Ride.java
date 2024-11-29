@@ -1,74 +1,60 @@
 package org.buildcode.syncservice.data.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.EnumType;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.buildcode.syncservice.api.constants.RideStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 
+import java.math.BigInteger;
 import java.time.Instant;
 
-@Entity
-@Table(name = "Rides")
 @Data
+@Entity
+@Table(name = "rides")
 public class Ride {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Primary key for the entity, auto-generated
 
-    @Column(name = "source", nullable = false)
-    private String source;
+    @Column(nullable = false, length = 255)
+    private String source; // Source location
 
-    @Column(name = "destination", nullable = false)
-    private String destination;
+    @Column(nullable = false, length = 255)
+    private String destination; // Destination location
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
+    @Column(nullable = false)
+    private String userId; // User who posted the ride
 
-    @Column(name = "seats", nullable = false)
-    private Integer seats;
+    @Column(nullable = false)
+    private BigInteger seats; // Number of seats
 
-    @Column(name = "carModel", nullable = false)
-    private String carModel;
+    @Column(nullable = false, unique = true)
+    private String vehicleNumber; // Vehicle number
 
-    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private RideStatus status;
+    @Column(nullable = false)
+    private RideStatus status; // Ride status
 
-    @CreatedDate
-    @Column(name = "createdAt", nullable = false)
-    private Instant createdAt;
+    @Column(nullable = false)
+    private BigInteger fare; // Fare for the ride
 
-    @LastModifiedBy
-    @Column(name = "updatedAt", nullable = false)
-    private Instant updatedAt;
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt; // Timestamp for creation
+
+    @Column(nullable = false)
+    private Instant updatedAt; // Timestamp for last update
 
     @PrePersist
-    protected  void prePersist(){
-        if(this.createdAt == null){
-            createdAt = Instant.now();
-        }
-        if(this.updatedAt == null){
-            updatedAt = Instant.now();
-        }
+    public void onCreate() {
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     @PreUpdate
-    protected void preUpdate(){
+    public void onUpdate() {
         this.updatedAt = Instant.now();
     }
 }

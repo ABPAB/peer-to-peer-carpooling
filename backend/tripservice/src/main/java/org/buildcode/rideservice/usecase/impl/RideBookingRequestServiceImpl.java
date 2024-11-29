@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,7 +49,7 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
         }
 
         rideServiceImpl.getRideById(rideId);
-        if(rideBookingRequestRepository.existsByUserIdAndRideId(userId, rideId)) {
+        if(rideBookingRequestRepository.existsByRiderIdAndRideId(userId, rideId)) {
             throw new RideBookingRequestAlreadyExistsException("Entity already exists for userId: " + userId);
         }
     }
@@ -60,7 +59,7 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
         BookingRequest bookingRequest = bookingRequestMapper.toBookingRequest(requestModel);
 
         try {
-            String userId = requestModel.getUserId();
+            String userId = requestModel.getRiderId();
             String rideId = requestModel.getRideId();
 
             validateBookingRequest(userId, rideId);
@@ -94,7 +93,7 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
         Optional<BookingRequest> bookingRequest = rideBookingRequestRepository.findById(bookingRequestId);
 
         BookingRequest br = bookingRequest.orElseThrow(() ->
-                new RideBookingRequestNotFoundException("Ride booking request with id: "+bookingRequestId+" not Found");
+                new RideBookingRequestNotFoundException("Ride booking request with id: "+bookingRequestId+" not Found")
         );
         TransactionReceipt blockchainResponse = blockchainService.acceptRideRequest(br.getRideId(), ownerId, br.getRiderId());
 
