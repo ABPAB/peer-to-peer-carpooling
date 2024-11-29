@@ -9,5 +9,5 @@ public interface EventHandlerService {
 
     void handleRideUpdatedEvent(RideEventPayload payload);
 
-    void handleNotificationEvent(RideNotificationPayload payload);
+    void handleNotificationEvent(RideNotificationPayload payload, String topic);
 }

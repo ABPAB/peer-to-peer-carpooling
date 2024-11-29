@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -77,8 +78,8 @@ public class RideServiceImpl implements RideService {
         }
     }
 
-    private String generateUUID() {
-        return "adsfa";
+    public String generateUUID() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
