@@ -12,6 +12,8 @@ contract RideCreation {
         uint fare;             // Fare for the ride
         uint availableSeats;   // Number of available seats
         string vehicleNumber;  // Vehicle number used for the ride
+        string departureTime;  // Departure time
+        string departureDate;  // Departure date
     }
 
     struct Rider {
@@ -40,6 +42,8 @@ contract RideCreation {
         uint fare,
         uint availableSeats,
         string vehicleNumber,
+        string departureTime,
+        string departureDate,
         RideStatus status
     );
 
@@ -59,7 +63,9 @@ contract RideCreation {
         string source,
         string destination,
         uint fare,
-        string vehicleNumber
+        string vehicleNumber,
+        string departureTime, // Add departureTime
+        string departureDate  // Add departureDate
     );
 
     // Function to create a ride
@@ -70,7 +76,9 @@ contract RideCreation {
     string memory destination,
     uint fare,
     uint availableSeats,
-    string memory vehicleNumber
+    string memory vehicleNumber,
+    string memory departureTime,
+    string memory departureDate
 ) public {
     // Ensure that the rideId is unique (not already used)
     bytes32 rideKey = keccak256(abi.encodePacked(rideId));
@@ -84,6 +92,8 @@ contract RideCreation {
     rides[rideKey].details.fare = fare;
     rides[rideKey].details.availableSeats = availableSeats;
     rides[rideKey].details.vehicleNumber = vehicleNumber;
+    rides[rideKey].details.departureTime = departureTime;
+    rides[rideKey].details.departureDate = departureDate;
     rides[rideKey].status = RideStatus.ACTIVE;
     rides[rideKey].createdAt = block.timestamp;
     rides[rideKey].updatedAt = block.timestamp;
@@ -97,6 +107,8 @@ contract RideCreation {
         fare,
         availableSeats,
         vehicleNumber,
+        departureTime,
+        departureDate,
         RideStatus.ACTIVE
     );
 }
@@ -153,7 +165,9 @@ contract RideCreation {
             ride.details.source,
             ride.details.destination,
             ride.details.fare,
-            ride.details.vehicleNumber
+            ride.details.vehicleNumber,
+            ride.details.departureTime,
+            ride.details.departureDate
         );
     }
 
@@ -190,7 +204,9 @@ contract RideCreation {
                         ride.details.source,
                         ride.details.destination,
                         ride.details.fare,
-                        ride.details.vehicleNumber
+                        ride.details.vehicleNumber,
+                        ride.details.departureTime,
+                        ride.details.departureDate
                     );
                 }
             }
@@ -210,7 +226,9 @@ contract RideCreation {
                         ride.details.source,
                         ride.details.destination,
                         ride.details.fare,
-                        ride.details.vehicleNumber
+                        ride.details.vehicleNumber,
+                        ride.details.departureTime,
+                        ride.details.departureDate
                     );
                 }
             }
@@ -276,7 +294,9 @@ contract RideCreation {
             ride.details.source,
             ride.details.destination,
             ride.details.fare,
-            ride.details.vehicleNumber
+            ride.details.vehicleNumber,
+            ride.details.departureTime,
+            ride.details.departureDate
         );
     }
 
@@ -285,6 +305,17 @@ contract RideCreation {
     require(bytes(rides[rideKey].rideId).length > 0, "Ride does not exist");
     require(bytes(rides[rideKey].riders[riderId].riderId).length > 0, "Rider does not exist");
     return rides[rideKey].riders[riderId].status;
+    }
+
+    // Function to get the latest ride details using rideId
+    function getRideDetails(string memory rideId) public view returns (RideDetails memory) {
+        bytes32 rideKey = keccak256(abi.encodePacked(rideId));
+
+        // Ensure the ride exists
+        require(bytes(rides[rideKey].rideId).length > 0, "Ride does not exist");
+
+        // Return the latest ride details
+        return rides[rideKey].details;
     }
 
 }
