@@ -56,7 +56,7 @@ public class RideServiceImpl implements RideService {
             Optional<Ride> ride = rideRepository.findById(id);
 
             if(ride.isEmpty()) {
-                throw new RideNotFoundException("Ride couldn't found");
+                throw new RideNotFoundException("Ride with ID " + id + " could not be found");
             }
 
             return rideMapper.toRideResponseModel(ride.get());

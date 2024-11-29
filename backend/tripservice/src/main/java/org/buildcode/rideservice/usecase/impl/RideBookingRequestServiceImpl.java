@@ -6,10 +6,7 @@ import org.buildcode.rideservice.api.model.v1_0.BookingRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestResponseModel;
 import org.buildcode.rideservice.data.entity.BookingRequest;
 import org.buildcode.rideservice.data.mapper.BookingRequestMapper;
-import org.buildcode.rideservice.exception.InvalidBookingRequestDataException;
-import org.buildcode.rideservice.exception.RideBookingRequestAlreadyExistsException;
-import org.buildcode.rideservice.exception.RideBookingRequestCanNotBeAccepted;
-import org.buildcode.rideservice.exception.RideBookingRequestNotFoundException;
+import org.buildcode.rideservice.exception.*;
 import org.buildcode.rideservice.repository.RideBookingRequestRepository;
 import org.buildcode.rideservice.usecase.BlockchainService;
 import org.buildcode.rideservice.usecase.NotificationService;
@@ -28,6 +25,9 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
     private RideBookingRequestRepository rideBookingRequestRepository;
 
     @Autowired
+    private RideServiceImpl rideService;
+
+    @Autowired
     private BookingRequestMapper bookingRequestMapper;
 
     @Autowired
@@ -35,7 +35,24 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
 
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private RideServiceImpl rideServiceImpl;
 
+
+    private void validateBookingRequest(String userId, String rideId) {
+        if(userId == null && rideId == null) {
+            throw new InvalidBookingRequestDataException("Invalid or missing value for field: userId and rideId");
+        } else if(userId == null){
+            throw new InvalidBookingRequestDataException("Invalid or missing value for field: userId");
+        } else if(rideId == null){
+            throw new InvalidBookingRequestDataException("Invalid or missing value for field: rideId");
+        }
+
+        rideServiceImpl.getRideById(rideId);
+        if(rideBookingRequestRepository.existsByUserIdAndRideId(userId, rideId)) {
+            throw new RideBookingRequestAlreadyExistsException("Entity already exists for userId: " + userId);
+        }
+    }
 
     @Override
     public BookingRequestResponseModel createBookingRequest(BookingRequestModel requestModel) {
@@ -48,26 +65,11 @@ public class RideBookingRequestServiceImpl implements RideBookingRequestService 
 
             validateBookingRequest(userId, rideId);
             BookingRequest bookingRequest1 = null;
-            if(!rideBookingRequestRepository.existsByUserIdAndRideId(userId, rideId)) {
-                bookingRequest1 = rideBookingRequestRepository.save(bookingRequest);
-            } else {
-                throw new RideBookingRequestAlreadyExistsException("Entity already exists for userId: " + userId);
-            }
-
+            bookingRequest1 = rideBookingRequestRepository.save(bookingRequest);
             return bookingRequestMapper.toBookingRequestResponseModel(bookingRequest1);
         } catch (Exception ex) {
             log.error("Exception occurred while creating Booking Request: {}", ex.getMessage());
             throw ex;
-        }
-    }
-
-    private static void validateBookingRequest(String userId, String rideId) {
-        if(userId == null && rideId == null) {
-            throw new InvalidBookingRequestDataException("Invalid or missing value for field: userId and rideId");
-        } else if(userId == null){
-            throw new InvalidBookingRequestDataException("Invalid or missing value for field: userId");
-        } else if(rideId == null){
-            throw new InvalidBookingRequestDataException("Invalid or missing value for field: rideId");
         }
     }
 
