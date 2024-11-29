@@ -6,8 +6,8 @@ public class RideBookingRequestCanNotBeAccepted extends RideServiceException {
 
     public RideBookingRequestCanNotBeAccepted(String details) {
         super(
-                ErrorCode.BOOKING_500.getCode(),
-                ErrorCode.BOOKING_500.getMessage(),
+                ErrorCode.BOOKING_CONFLICT_409.getCode(),
+                ErrorCode.BOOKING_CONFLICT_409.getMessage(),
                 details
         );
     }

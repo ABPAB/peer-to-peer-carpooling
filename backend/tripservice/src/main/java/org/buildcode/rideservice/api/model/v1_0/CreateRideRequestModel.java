@@ -33,7 +33,7 @@ public class CreateRideRequestModel {
     @Schema(description = "Model of the car for the ride", example = "Toyota Prius")
     private String carModel;
 
-    @Schema(description = "Current status of the ride", example = "ACTIVE")
+    @Schema(description = "Current status of the ride", example = "CREATED")
     private RideStatus status;
 
     @Schema(description = "Timestamp when the ride request was created", example = "2023-08-01T10:15:30Z")

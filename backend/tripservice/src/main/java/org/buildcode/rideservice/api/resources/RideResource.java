@@ -28,8 +28,10 @@ public interface RideResource {
 
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
-                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
+                    @ApiResponse(responseCode = "201", description = ApiConstants.MESSAGE_CREATED_FOR_RIDE),
+                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_INVALID_RIDE),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_RIDE_NOT_FOUND),
+                    @ApiResponse(responseCode = "409", description = ApiConstants.MESSAGE_RIDE_ALREADY_EXISTS),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR)
             }
     )
@@ -42,9 +44,9 @@ public interface RideResource {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
-                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
+                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_INVALID_RIDE),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
-                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_NOT_FOUND)
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_RIDE_NOT_FOUND)
             }
     )
     @Operation(method = "GET", summary = "Get Ride Details By Id")
@@ -60,7 +62,7 @@ public interface RideResource {
                     @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
                     @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
-                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_NOT_FOUND)
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_RIDE_NOT_FOUND)
             }
     )
     @Operation(method = "DELETE", summary = "Delete Ride By Id")
