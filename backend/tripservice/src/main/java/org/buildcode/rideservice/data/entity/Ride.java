@@ -58,6 +58,12 @@ public class Ride {
     @Enumerated(EnumType.STRING)
     private RideStatus status;
 
+    @Column(name = "departureTime", nullable = false)
+    private String departureTime;
+
+    @Column(name = "departureDate", nullable = false)
+    private String departureDate;
+
     @CreatedDate
     @Column(name = "createdAt", nullable = false)
     private Instant createdAt;

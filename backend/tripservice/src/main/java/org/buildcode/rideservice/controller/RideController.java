@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.buildcode.rideservice.api.model.v1_0.CreateRideRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.RideResponseModel;
 import org.buildcode.rideservice.api.resources.RideResource;
+import org.buildcode.rideservice.data.dto.RideCreatedResponsePayload;
 import org.buildcode.rideservice.data.entity.Ride;
 import org.buildcode.rideservice.usecase.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,11 @@ public class RideController implements RideResource {
 
 
     @Override
-    public ResponseEntity<String> createRideRequest(CreateRideRequestModel createRideRequestModel) {
+    public ResponseEntity<RideCreatedResponsePayload> createRideRequest(CreateRideRequestModel createRideRequestModel) {
         log.info("Got the request for create ride: {}", createRideRequestModel);
-        String id = rideService.createRide(createRideRequestModel);
-        log.info("Created the ride: {}", id);
-        return new ResponseEntity<String>(id, HttpStatus.CREATED);
+        RideCreatedResponsePayload response = rideService.createRide(createRideRequestModel);
+        log.info("Created the ride: {}", response.getRideId());
+        return new ResponseEntity<RideCreatedResponsePayload>(response, HttpStatus.CREATED);
     }
 
     @Override

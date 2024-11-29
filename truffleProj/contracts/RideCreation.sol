@@ -32,19 +32,23 @@ contract RideCreation {
         uint256 updatedAt;           // Timestamp of last update
     }
 
+    struct RideCreatedResponse {
+        string rideId;
+        string ownerId;
+        string source;
+        string destination;
+        uint fare;
+        uint availableSeats;
+        string vehicleNumber;
+        string departureTime;
+        string departureDate;
+        RideStatus status;
+    }
+
     mapping(bytes32 => Ride) private rides;
 
     event RideCreated(
-        string rideId,
-        string ownerId,
-        string source,
-        string destination,
-        uint fare,
-        uint availableSeats,
-        string vehicleNumber,
-        string departureTime,
-        string departureDate,
-        RideStatus status
+        RideCreatedResponse rideDetails
     );
 
     event RideUpdated(
@@ -100,16 +104,18 @@ contract RideCreation {
 
     // Emit the RideCreated event with the relevant details
     emit RideCreated(
-        rideId,
-        ownerId,
-        source,
-        destination,
-        fare,
-        availableSeats,
-        vehicleNumber,
-        departureTime,
-        departureDate,
-        RideStatus.ACTIVE
+        RideCreatedResponse(
+                rideId,
+                ownerId,
+                source,
+                destination,
+                fare,
+                availableSeats,
+                vehicleNumber,
+                departureTime,
+                departureDate,
+                RideStatus.ACTIVE
+        )
     );
 }
 
@@ -307,15 +313,25 @@ contract RideCreation {
     return rides[rideKey].riders[riderId].status;
     }
 
-    // Function to get the latest ride details using rideId
-    function getRideDetails(string memory rideId) public view returns (RideDetails memory) {
+    // Function to get ride details, matching RideCreated event structure
+    function getRideDetails(string memory rideId) public view returns (RideCreatedResponse memory) {
         bytes32 rideKey = keccak256(abi.encodePacked(rideId));
-
-        // Ensure the ride exists
         require(bytes(rides[rideKey].rideId).length > 0, "Ride does not exist");
 
-        // Return the latest ride details
-        return rides[rideKey].details;
+        Ride storage ride = rides[rideKey];
+
+        return RideCreatedResponse(
+            ride.rideId,
+            ride.ownerId,
+            ride.details.source,
+            ride.details.destination,
+            ride.details.fare,
+            ride.details.availableSeats,
+            ride.details.vehicleNumber,
+            ride.details.departureTime,
+            ride.details.departureDate,
+            ride.status
+        );
     }
 
 }

@@ -17,10 +17,10 @@ public class TestRideCreation {
             Web3j web3j = Web3j.build(new HttpService("http://localhost:8545"));
 
             // Use the credentials of the account deploying the contract
-            Credentials credentials = Credentials.create("0x70d2e3a11fe294288df4c1ce72015054d16c23268a442004be044edbb118331b");
+            Credentials credentials = Credentials.create("0xc23af00d7cc62ccaa6c3078876fa8aa4a4e2e320789f3deb769f48f52b622035");
 
             // Deployed contract address
-            String contractAddress = "0x2D775eA6e0163f701F5481a6C0621EDD8841E4A1";
+            String contractAddress = "0x0Fd68F33D77823e613Ac71CaAB31Fcb92aB560ce";
 
             // Create a contract instance
             RideCreation rideCreationContract = RideCreation.load(
@@ -36,13 +36,13 @@ public class TestRideCreation {
             String vehicleNumber = "XYZ1234"; // Dummy Vehicle Number
 
             // Call the `createRide` function
-            RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(rideId, ownerId, source, destination, BigInteger.valueOf(fare), BigInteger.valueOf(availableSeats), vehicleNumber);
+//            RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(rideId, ownerId, source, destination, BigInteger.valueOf(fare), BigInteger.valueOf(availableSeats), vehicleNumber, "12:33PM", "23/10/26");
 //            RemoteCall<TransactionReceipt> update = rideCreationContract.updateRideStatusByDriver(rideId, ownerId, BigInteger.valueOf(1));
 //            RemoteCall<TransactionReceipt> update = rideCreationContract.acceptRideByOwner(rideId, ownerId, "rider1234");
 //            RemoteCall<TransactionReceipt> update = rideCreationContract.cancelRideByRider(rideId, "rider1234");
-//            RemoteCall<BigInteger> update = rideCreationContract.getRiderStatus(rideId, "rider1234");
-            TransactionReceipt receipt = transaction.send();
-//            BigInteger receipt = update.send();
+            RemoteCall<BigInteger> update = rideCreationContract.getRiderStatus(rideId, "rider1234");
+//            TransactionReceipt receipt = update.send();
+            BigInteger receipt = update.send();
             System.out.println("Ride created with transaction hash: " + receipt);
         } catch (Exception e) {
             e.printStackTrace();
