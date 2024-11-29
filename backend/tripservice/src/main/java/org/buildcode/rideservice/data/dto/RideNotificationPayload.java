@@ -1,10 +1,11 @@
-package org.buildcode.syncservice.data.dto;
+package org.buildcode.rideservice.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.buildcode.syncservice.api.constants.RideStatus;
+import org.buildcode.rideservice.api.constants.RideStatus;
+import org.buildcode.rideservice.api.constants.RiderStatus;
 
 import java.math.BigInteger;
 
@@ -12,14 +13,12 @@ import java.math.BigInteger;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RideDetails {
-    private String rideId;
+public class RideNotificationPayload {
+    private String riderId;
     private String ownerId;
     private String source;
     private String destination;
     private BigInteger fare;
-    private BigInteger seats;
     private String vehicleNumber;
-    private RideStatus rideStatus;
-    private BigInteger updatedAt;
+    private String riderStatus;
 }

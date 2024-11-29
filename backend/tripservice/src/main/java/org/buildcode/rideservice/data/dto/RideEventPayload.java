@@ -1,18 +1,19 @@
-package org.buildcode.syncservice.data.dto;
+package org.buildcode.rideservice.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.buildcode.syncservice.api.constants.RideStatus;
+import org.buildcode.rideservice.api.constants.RideStatus;
 
 import java.math.BigInteger;
+import java.time.Instant;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RideDetails {
+public class RideEventPayload {
     private String rideId;
     private String ownerId;
     private String source;

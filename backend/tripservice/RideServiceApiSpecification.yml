@@ -1,0 +1,768 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ride Service",
+    "description": "Ride Service (Part Of Car Pooling Project",
+    "contact": {
+      "name": "Car Pooling",
+      "url": "https://github.com/ABPAB/peer-to-peer-carpooling",
+      "email": "carpooling@gmail.com"
+    },
+    "license": {
+      "name": "Car Pooling Project internal use."
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8082",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/trip-service/v1/request": {
+      "post": {
+        "tags": [
+          "Ride Request Resource"
+        ],
+        "summary": "Create booking request",
+        "operationId": "createBookingRequest",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingRequestModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trip-service/v1/request/{bookingRequestId}/reject": {
+      "post": {
+        "tags": [
+          "Ride Request Resource"
+        ],
+        "summary": "Reject Ride Request",
+        "operationId": "rejectRideBookingRequest",
+        "parameters": [
+          {
+            "name": "bookingRequestId",
+            "in": "path",
+            "description": "bookingRequestId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Booking Request ID",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trip-service/v1/request/{bookingRequestId}/accept": {
+      "post": {
+        "tags": [
+          "Ride Request Resource"
+        ],
+        "summary": "Accept Ride Booking Request",
+        "operationId": "acceptRideBookingRequest",
+        "parameters": [
+          {
+            "name": "bookingRequestId",
+            "in": "path",
+            "description": "bookingRequestId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Booking Request ID",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trip-service/v1/": {
+      "post": {
+        "tags": [
+          "Ride Details Resource"
+        ],
+        "summary": "Create Ride",
+        "operationId": "createRideRequest",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRideRequestModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trip-service/v1/{id}": {
+      "get": {
+        "tags": [
+          "Ride Details Resource"
+        ],
+        "summary": "Get Ride Details By Id",
+        "operationId": "getRideRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ride id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Reference",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ride Details Resource"
+        ],
+        "summary": "Delete Ride By Id",
+        "operationId": "deleteRideRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ride id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Reference",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Ride Details Resource"
+        ],
+        "summary": "Update Ride data",
+        "operationId": "updateRideRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ride id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Reference",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRideRequestModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trip-service/v1/device/{id}": {
+      "patch": {
+        "tags": [
+          "Ride Details Resource"
+        ],
+        "summary": "Update Ride Device data",
+        "operationId": "updateRideRequest_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ride id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Reference",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RideDeviceDetails"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trip-service/v1/request/{bookingRequestId}": {
+      "get": {
+        "tags": [
+          "Ride Request Resource"
+        ],
+        "summary": "Get booking request details by id",
+        "operationId": "getBookingRequest",
+        "parameters": [
+          {
+            "name": "bookingRequestId",
+            "in": "path",
+            "description": "booking request id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Reference",
+              "example": "8732njsf87yh"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingRequestResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BookingRequestModel": {
+        "type": "object",
+        "properties": {
+          "rideId": {
+            "type": "string",
+            "description": "rideId",
+            "example": "8u3wk976"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User who posted the ride",
+            "example": "98nasyu3w423"
+          }
+        }
+      },
+      "BookingRequestResponseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "booking request id",
+            "example": "kjhabsd78w3jba78s"
+          },
+          "rideId": {
+            "type": "string",
+            "description": "rideId",
+            "example": "8u3wk976"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "booking request status",
+            "example": "PENDING",
+            "enum": [
+              "REQUESTED",
+              "PAYMENT_PENDING",
+              "BOOKED",
+              "REJECTED",
+              "CANCELLED",
+              "CONFIRMED",
+              "PAY_AFTER_RIDE_COMPLETION",
+              "EXPIRED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp when the ride request was created",
+            "format": "date-time",
+            "example": "2023-08-01T10:15:30Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp when the ride request was last updated",
+            "format": "date-time",
+            "example": "2023-08-01T12:45:30Z"
+          }
+        }
+      },
+      "CreateRideRequestModel": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Source location of the ride",
+            "example": "Central Park, New York"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Destination location of the ride",
+            "example": "Times Square, New York"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who created the ride request",
+            "example": "user789xyz"
+          },
+          "seats": {
+            "type": "integer",
+            "description": "Number of seats requested",
+            "format": "int32",
+            "example": 2
+          },
+          "carModel": {
+            "type": "string",
+            "description": "Model of the car for the ride",
+            "example": "Toyota Prius"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the ride",
+            "example": "ACTIVE",
+            "enum": [
+              "CREATED",
+              "DELETED",
+              "COMPLETED",
+              "REQUESTED",
+              "ACCEPTED",
+              "REJECTED",
+              "CANCELED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Timestamp when the ride request was created",
+            "format": "date-time",
+            "example": "2023-08-01T10:15:30Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Timestamp when the ride request was last updated",
+            "format": "date-time",
+            "example": "2023-08-01T12:45:30Z"
+          }
+        }
+      },
+      "Ride": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "seats": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "carModel": {
+            "type": "string"
+          },
+          "deviceToken": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "DELETED",
+              "COMPLETED",
+              "REQUESTED",
+              "ACCEPTED",
+              "REJECTED",
+              "CANCELED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RideDeviceDetails": {
+        "type": "object",
+        "properties": {
+          "deviceToken": {
+            "type": "string",
+            "description": "Ride device token",
+            "example": "token"
+          }
+        }
+      },
+      "RideResponseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the ride",
+            "example": "12345abcde"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source location of the ride",
+            "example": "New York"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Destination location of the ride",
+            "example": "Los Angeles"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User who posted the ride",
+            "example": "98nasyu3w423"
+          },
+          "seats": {
+            "type": "integer",
+            "description": "Number of seats",
+            "format": "int32",
+            "example": 10
+          },
+          "carModel": {
+            "type": "string",
+            "description": "Car Model",
+            "example": "TATA"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the ride",
+            "example": "ACTIVE",
+            "enum": [
+              "CREATED",
+              "DELETED",
+              "COMPLETED",
+              "REQUESTED",
+              "ACCEPTED",
+              "REJECTED",
+              "CANCELED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time when the ride was created",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time when the ride was last updated",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

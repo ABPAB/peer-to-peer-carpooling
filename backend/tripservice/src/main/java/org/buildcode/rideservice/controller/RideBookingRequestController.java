@@ -31,9 +31,9 @@ public class RideBookingRequestController implements RideBookingRequestResource 
     }
 
     @Override
-    public ResponseEntity<Boolean> acceptRideBookingRequest(String bookingRequestId) {
+    public ResponseEntity<Boolean> acceptRideBookingRequest(String bookingRequestId, String ownerId) {
         log.info("Got the request for accepting the ride booking request: {}", bookingRequestId);
-        Boolean result = rideBookingRequestService.acceptRideBookingRequest(bookingRequestId);
+        Boolean result = rideBookingRequestService.acceptRideBookingRequest(bookingRequestId, ownerId);
         log.info("Ride Request status: {}", result);
         return new ResponseEntity<Boolean>(result, HttpStatus.OK);
     }

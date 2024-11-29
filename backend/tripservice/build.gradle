@@ -22,6 +22,7 @@ ext {
 }
 
 dependencies {
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
@@ -33,6 +34,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
 	implementation 'org.web3j:core:4.9.4'
+	implementation 'org.apache.kafka:kafka-clients:3.7.1'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 

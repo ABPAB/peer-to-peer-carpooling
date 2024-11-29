@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public interface RideBookingRequestRepository extends JpaRepository<BookingRequest,String> {
-
+    boolean existsByRiderIdAndRideId(String riderId, String rideId);
 }

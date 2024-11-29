@@ -17,6 +17,6 @@ public class BookingRequestModel {
     @Schema(description = "rideId", example = "8u3wk976")
     String rideId;
 
-    @Schema(description = "User who posted the ride", example = "98nasyu3w423")
-    private String userId;
+    @Schema(description = "RiderId who requested for the booking", example = "98nasyu3w423")
+    private String riderId;
 }

@@ -21,11 +21,11 @@ public class RideController implements RideResource {
 
 
     @Override
-    public ResponseEntity<Ride> createRideRequest(CreateRideRequestModel createRideRequestModel) {
+    public ResponseEntity<String> createRideRequest(CreateRideRequestModel createRideRequestModel) {
         log.info("Got the request for create ride: {}", createRideRequestModel);
-        Ride ride = rideService.createRide(createRideRequestModel);
-        log.info("Created the ride: {}", ride);
-        return new ResponseEntity<Ride>(ride, HttpStatus.CREATED);
+        String id = rideService.createRide(createRideRequestModel);
+        log.info("Created the ride: {}", id);
+        return new ResponseEntity<String>(id, HttpStatus.CREATED);
     }
 
     @Override
@@ -37,10 +37,10 @@ public class RideController implements RideResource {
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteRideRequest(String id) {
-        log.info("Got the request for delete ride for id: {}", id);
-        Boolean result = rideService.deleteById(id);
-        log.info("Deleted the ride of id: {} ", id);
+    public ResponseEntity<Boolean> deleteRideRequest(String rideId, String ownerId) {
+        log.info("Got the request for delete ride for id: {}", rideId);
+        Boolean result = rideService.deleteById(rideId, ownerId);
+        log.info("Deleted the ride of id: {} ", rideId);
         return new ResponseEntity<Boolean>(result, HttpStatus.OK);
     }
 

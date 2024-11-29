@@ -20,8 +20,8 @@ public class BookingRequestResponseModel {
     @Schema(description = "rideId", example = "8u3wk976")
     String rideId;
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
+    @Column(name = "riderId", nullable = false)
+    private String riderId;
 
     @Schema(description = "booking request status", example = "PENDING")
     BookingRequestStatus status;

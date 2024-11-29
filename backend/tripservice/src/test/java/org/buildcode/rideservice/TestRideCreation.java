@@ -17,34 +17,33 @@ public class TestRideCreation {
             Web3j web3j = Web3j.build(new HttpService("http://localhost:8545"));
 
             // Use the credentials of the account deploying the contract
-            Credentials credentials = Credentials.create("0xa8dc07fb6eeb9fc38d89495e21d464b22ab01f69086decac8a75052c2ce87ad1");
+            Credentials credentials = Credentials.create("0x70d2e3a11fe294288df4c1ce72015054d16c23268a442004be044edbb118331b");
 
             // Deployed contract address
-            String contractAddress = "0x71DF4fa8767f275e113757c6123b4712d6BFD866";
+            String contractAddress = "0x2D775eA6e0163f701F5481a6C0621EDD8841E4A1";
 
             // Create a contract instance
             RideCreation rideCreationContract = RideCreation.load(
                     contractAddress, web3j, credentials, new DefaultGasProvider()
             );
 
-            // Create a new ride using the `Struct0` data structure
-            RideCreation.Struct0 rideDetails = new RideCreation.Struct0(
-                    "ride123",               // rideId (String)
-                    "user456",               // userId (String)
-                    "PickupLocation",        // source (String)
-                    "DropOffLocation",       // destination (String)
-                    BigInteger.valueOf(50),  // fare (BigInteger)
-                    BigInteger.valueOf(3),   // availableSeats (BigInteger)
-                    "Toyota Camry"           // carModel (String)
-            );
+            String rideId = "ride123"; // Dummy Ride ID
+            String ownerId = "owner001"; // Dummy Owner ID
+            String source = "Location A"; // Dummy Source
+            String destination = "Location B"; // Dummy Destination
+            long fare = 1000; // Dummy Fare in Wei (1 ETH = 1e18 Wei)
+            int availableSeats = 4; // Dummy number of available seats
+            String vehicleNumber = "XYZ1234"; // Dummy Vehicle Number
 
             // Call the `createRide` function
-            RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(rideDetails);
-
-            // Send the transaction and get the receipt
+            RemoteCall<TransactionReceipt> transaction = rideCreationContract.createRide(rideId, ownerId, source, destination, BigInteger.valueOf(fare), BigInteger.valueOf(availableSeats), vehicleNumber);
+//            RemoteCall<TransactionReceipt> update = rideCreationContract.updateRideStatusByDriver(rideId, ownerId, BigInteger.valueOf(1));
+//            RemoteCall<TransactionReceipt> update = rideCreationContract.acceptRideByOwner(rideId, ownerId, "rider1234");
+//            RemoteCall<TransactionReceipt> update = rideCreationContract.cancelRideByRider(rideId, "rider1234");
+//            RemoteCall<BigInteger> update = rideCreationContract.getRiderStatus(rideId, "rider1234");
             TransactionReceipt receipt = transaction.send();
-
-            System.out.println("Ride created with transaction hash: " + receipt.getTransactionHash());
+//            BigInteger receipt = update.send();
+            System.out.println("Ride created with transaction hash: " + receipt);
         } catch (Exception e) {
             e.printStackTrace();
         }

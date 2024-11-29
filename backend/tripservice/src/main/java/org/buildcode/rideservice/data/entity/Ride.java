@@ -16,6 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.Instant;
 
 @Entity
@@ -37,14 +39,17 @@ public class Ride {
     @Column(name = "destination", nullable = false)
     private String destination;
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
+    @Column(name = "ownerId", nullable = false)
+    private String ownerId;
 
     @Column(name = "seats", nullable = false)
-    private Integer seats;
+    private BigInteger seats;
 
-    @Column(name = "carModel", nullable = false)
-    private String carModel;
+    @Column(name = "vehicleNumber", nullable = false)
+    private String vehicleNumber;
+
+    @Column(name = "fare", nullable = false)
+    private BigInteger fare;
 
     @Column(name = "deviceToken", nullable = true)
     private String deviceToken;

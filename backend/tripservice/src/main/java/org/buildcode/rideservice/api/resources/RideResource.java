@@ -28,23 +28,25 @@ public interface RideResource {
 
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
-                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
+                    @ApiResponse(responseCode = "201", description = ApiConstants.MESSAGE_CREATED_FOR_RIDE),
+                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_INVALID_RIDE),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_RIDE_NOT_FOUND),
+                    @ApiResponse(responseCode = "409", description = ApiConstants.MESSAGE_RIDE_ALREADY_EXISTS),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR)
             }
     )
     @Operation(method = "POST", summary = "Create Ride")
     @PostMapping("/")
-    ResponseEntity<Ride> createRideRequest(
+    ResponseEntity<String> createRideRequest(
             @RequestBody CreateRideRequestModel createRideRequestModel
     );
 
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
-                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
+                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_INVALID_RIDE),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
-                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_NOT_FOUND)
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_RIDE_NOT_FOUND)
             }
     )
     @Operation(method = "GET", summary = "Get Ride Details By Id")
@@ -60,7 +62,7 @@ public interface RideResource {
                     @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
                     @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
                     @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
-                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_NOT_FOUND)
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_RIDE_NOT_FOUND)
             }
     )
     @Operation(method = "DELETE", summary = "Delete Ride By Id")
@@ -68,7 +70,10 @@ public interface RideResource {
     ResponseEntity<Boolean> deleteRideRequest(
             @Parameter(name = "id", description = "ride id")
             @Schema(description = "Reference", example = "8732njsf87yh", required = true)
-            @PathVariable String id
+            @PathVariable String id,
+            @Parameter(name = "ownerId", description = "owner id")
+            @Schema(description = "Owner Id", example = "ownerIDdjc", required = true)
+            @PathVariable String ownerId
     );
 
     @ApiResponses(
