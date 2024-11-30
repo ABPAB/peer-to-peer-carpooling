@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.buildcode.rideservice.api.constants.KafkaConstants;
 import org.buildcode.rideservice.data.dto.RideEventPayload;
 import org.buildcode.rideservice.data.dto.RideNotificationPayload;
+import org.buildcode.rideservice.data.entity.Ride;
 import org.buildcode.rideservice.usecase.EventHandlerService;
 import org.buildcode.rideservice.usecase.KafkaEventProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,16 @@ public class EventHandlerServiceImpl implements EventHandlerService {
         }
     }
 
+    public void handleRideCreatedEvent(Ride rideDetails, String topic) {
+        try {
+            String eventPayloadJson = objectMapper.writeValueAsString(rideDetails);
+            kafkaEventProducerService.sendEvent(topic, rideDetails.getId(), eventPayloadJson);
+            log.info("RideCreatedEvent successfully sent to Kafka for ride ID: {}", rideDetails.getId());
+        } catch (Exception e) {
+            log.error("Error serializing RideCreatedEventPayload: {}", e.getMessage(), e);
+        }
+    }
+
     public void handleRideUpdatedEvent(RideEventPayload payload) {
         try {
             String eventPayloadJson = objectMapper.writeValueAsString(payload);
@@ -49,5 +60,14 @@ public class EventHandlerServiceImpl implements EventHandlerService {
             log.error("Error serializing RideNotificationEventPayload: {}", e.getMessage(), e);
         }
     }
-}
 
+    public void handleNotificationEvent(Ride rideDetails, String topic) {
+        try {
+            String notificationEventPayloadJson = objectMapper.writeValueAsString(rideDetails);
+            kafkaEventProducerService.sendEvent(topic, rideDetails.getId(), notificationEventPayloadJson);
+            log.info("RideNotificationEvent successfully sent to Kafka.");
+        } catch (Exception e) {
+            log.error("Error serializing RideNotificationEventPayload: {}", e.getMessage(), e);
+        }
+    }
+}

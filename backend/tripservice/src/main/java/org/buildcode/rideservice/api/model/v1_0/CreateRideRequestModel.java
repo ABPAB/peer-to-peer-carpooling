@@ -45,8 +45,8 @@ public class CreateRideRequestModel {
     private BigInteger fare;
 
     @Schema(description = "departureTime for the ride", example= "9:53AM")
-    private BigInteger departureTime;
+    private String departureTime;
 
     @Schema(description = "departureDate for the ride", example= "23/10/25")
-    private BigInteger departureDate;
+    private String departureDate;
 }

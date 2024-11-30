@@ -10,12 +10,10 @@ import org.buildcode.rideservice.data.dto.RideNotificationPayload;
 import org.buildcode.rideservice.data.entity.Ride;
 import org.buildcode.rideservice.usecase.BlockchainService;
 import org.buildcode.rideservice.usecase.EventHandlerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
-import org.web3j.protocol.core.RemoteFunctionCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.gas.DefaultGasProvider;
 
@@ -23,9 +21,9 @@ import org.web3j.tx.gas.DefaultGasProvider;
 @Slf4j
 public class BlockchainServiceImpl implements BlockchainService {
 
-    private final String contractAddress = "0x85F2F557C885171F4dfe09F81B393b78dE22a7B3";
+    private final String contractAddress = "0xE7906562A5D2c9Af983203E7831048d9199F7A33";
 
-    private final String blockchainKey = "0x85f54494add3ad14dff1ebc4aeb12fc42591e56f3531b50363f4a6211f78696f";
+    private final String blockchainKey = "0x1dcc502094122f4d4f12bed6bb38ee66dda84dd2e98da146dfd3228d9f2d4dba";
 
     private final RideCreation rideCreationContract;
 
@@ -33,7 +31,7 @@ public class BlockchainServiceImpl implements BlockchainService {
 
     private final Web3j web3j;
 
-    @Autowired
+
     public BlockchainServiceImpl(
             EventHandlerService eventHandlerService,
             Web3j web3j
@@ -56,6 +54,7 @@ public class BlockchainServiceImpl implements BlockchainService {
     public RideCreatedResponsePayload createRide(Ride rideDetails) {
         try {
             log.info("Creating a new ride on the blockchain...");
+
             TransactionReceipt transactionReceipt = rideCreationContract.createRide(
                     rideDetails.getId(),
                     rideDetails.getOwnerId(),
@@ -67,54 +66,27 @@ public class BlockchainServiceImpl implements BlockchainService {
                     rideDetails.getDepartureTime(),
                     rideDetails.getDepartureDate()
             ).send();
-            RideCreation.Struct0 rideInfo = rideCreationContract.getRideDetails(rideDetails.getId()).send();
-            RideCreatedResponsePayload responsePayload = RideCreatedResponsePayload.builder()
-                    .availableSeats(rideInfo.availableSeats)
-                    .departureDate(rideInfo.departureDate)
-                    .departureTime(rideInfo.departureTime)
-                    .destination(rideInfo.destination)
-                    .fare(rideInfo.fare)
-                    .source(rideInfo.source)
-                    .vehicleNumber(rideInfo.vehicleNumber)
-                    .rideId(rideInfo.rideId)
-                    .build();
+
             log.info("Ride created successfully with transaction hash: {}", transactionReceipt.getTransactionHash());
 
-            rideCreationContract.rideCreatedEventFlowable(
-                    DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber()),
-                    DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber())
-            ).subscribe(rideCreatedEvent -> {
-                log.info("Captured RideCreatedEvent: {}", rideCreatedEvent);
+            log.info("sending ride data to kafka: {}", rideDetails);
+            eventHandlerService.handleRideCreatedEvent(rideDetails, KafkaConstants.RIDE_CREATED_TOPIC);
 
-                RideEventPayload payload = RideEventPayload.builder()
-                        .rideId(rideCreatedEvent.rideDetails.rideId)
-                        .ownerId(rideCreatedEvent.rideDetails.ownerId)
-                        .source(rideCreatedEvent.rideDetails.source)
-                        .destination(rideCreatedEvent.rideDetails.destination)
-                        .fare(rideCreatedEvent.rideDetails.fare)
-                        .seats(rideCreatedEvent.rideDetails.availableSeats)
-                        .vehicleNumber(rideCreatedEvent.rideDetails.vehicleNumber)
-                        .rideStatus(RideStatus.fromValue(rideCreatedEvent.rideDetails.status))
-                        .departureTime(rideCreatedEvent.rideDetails.departureTime)
-                        .departureDate(rideCreatedEvent.rideDetails.departureDate)
-                        .build();
+            log.info("sending notification payload: {}", rideDetails);
+            eventHandlerService.handleNotificationEvent(rideDetails, KafkaConstants.SEND_NOTIFICATION_EVENT);
 
-                RideNotificationPayload notificationPayload = RideNotificationPayload.builder()
-                        .ownerId(rideCreatedEvent.ownerId)
-                        .destination(rideCreatedEvent.destination)
-                        .fare(rideCreatedEvent.fare)
-                        .source(rideCreatedEvent.source)
-                        .vehicleNumber(rideCreatedEvent.vehicleNumber)
-                        .build();
+            RideCreatedResponsePayload responsePayload = RideCreatedResponsePayload.builder()
+                    .availableSeats(rideDetails.getSeats())
+                    .departureDate(rideDetails.getDepartureDate())
+                    .departureTime(rideDetails.getDepartureTime())
+                    .destination(rideDetails.getDestination())
+                    .fare(rideDetails.getFare())
+                    .source(rideDetails.getSource())
+                    .vehicleNumber(rideDetails.getVehicleNumber())
+                    .rideId(rideDetails.getId())
+                    .build();
 
-                log.info("sending notification payload: {}", notificationPayload);
-
-                eventHandlerService.handleRideCreatedEvent(payload, KafkaConstants.RIDE_CREATED_TOPIC);
-                eventHandlerService.handleNotificationEvent(notificationPayload, KafkaConstants.SEND_NOTIFICATION_EVENT);
-
-            }, error -> log.error("Error while capturing RideCreatedEvent: {}", error.getMessage(), error));
             return responsePayload;
-
         } catch (Exception e) {
             log.error("Error occurred while creating a ride: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to create ride on the blockchain", e);
@@ -235,5 +207,4 @@ public class BlockchainServiceImpl implements BlockchainService {
             throw new RuntimeException("Failed to cancel the ride on the blockchain", e);
         }
     }
-
 }
