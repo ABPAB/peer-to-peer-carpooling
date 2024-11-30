@@ -16,6 +16,7 @@ public class RideUpdateServiceImpl implements RideUpdateService {
 
     @Override
     public void update(Ride ride) {
+        log.info("Got the ride update request: {}", ride);
         Ride newRide = rideRepository.save(ride);
         log.info("Created new ride! : {}", newRide);
     }

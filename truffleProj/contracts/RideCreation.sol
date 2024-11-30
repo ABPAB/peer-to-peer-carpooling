@@ -32,23 +32,19 @@ contract RideCreation {
         uint256 updatedAt;           // Timestamp of last update
     }
 
-    struct RideCreatedResponse {
-        string rideId;
-        string ownerId;
-        string source;
-        string destination;
-        uint fare;
-        uint availableSeats;
-        string vehicleNumber;
-        string departureTime;
-        string departureDate;
-        RideStatus status;
-    }
-
     mapping(bytes32 => Ride) private rides;
 
     event RideCreated(
-        RideCreatedResponse rideDetails
+        string rideId,
+        string ownerId,
+        string source,
+        string destination,
+        uint fare,
+        uint availableSeats,
+        string vehicleNumber,
+        string departureTime,
+        string departureDate,
+        RideStatus status
     );
 
     event RideUpdated(
@@ -74,52 +70,46 @@ contract RideCreation {
 
     // Function to create a ride
     function createRide(
-    string memory rideId,
-    string memory ownerId,
-    string memory source,
-    string memory destination,
-    uint fare,
-    uint availableSeats,
-    string memory vehicleNumber,
-    string memory departureTime,
-    string memory departureDate
-) public {
-    // Ensure that the rideId is unique (not already used)
-    bytes32 rideKey = keccak256(abi.encodePacked(rideId));
-    require(bytes(rides[rideKey].rideId).length == 0, "Ride ID already exists");
+        string memory rideId,
+        string memory ownerId,
+        string memory source,
+        string memory destination,
+        uint fare,
+        uint availableSeats,
+        string memory vehicleNumber,
+        string memory departureTime,
+        string memory departureDate
+    ) public {
+        bytes32 rideKey = keccak256(abi.encodePacked(rideId));
+        require(bytes(rides[rideKey].rideId).length == 0, "Ride ID already exists");
 
-    // Create the new ride by assigning individual properties
-    rides[rideKey].rideId = rideId;
-    rides[rideKey].ownerId = ownerId;
-    rides[rideKey].details.source = source;
-    rides[rideKey].details.destination = destination;
-    rides[rideKey].details.fare = fare;
-    rides[rideKey].details.availableSeats = availableSeats;
-    rides[rideKey].details.vehicleNumber = vehicleNumber;
-    rides[rideKey].details.departureTime = departureTime;
-    rides[rideKey].details.departureDate = departureDate;
-    rides[rideKey].status = RideStatus.ACTIVE;
-    rides[rideKey].createdAt = block.timestamp;
-    rides[rideKey].updatedAt = block.timestamp;
+        rides[rideKey].rideId = rideId;
+        rides[rideKey].ownerId = ownerId;
+        rides[rideKey].details.source = source;
+        rides[rideKey].details.destination = destination;
+        rides[rideKey].details.fare = fare;
+        rides[rideKey].details.availableSeats = availableSeats;
+        rides[rideKey].details.vehicleNumber = vehicleNumber;
+        rides[rideKey].details.departureTime = departureTime;
+        rides[rideKey].details.departureDate = departureDate;
+        rides[rideKey].status = RideStatus.ACTIVE;
+        rides[rideKey].createdAt = block.timestamp;
+        rides[rideKey].updatedAt = block.timestamp;
 
-    // Emit the RideCreated event with the relevant details
-    emit RideCreated(
-        RideCreatedResponse(
-                rideId,
-                ownerId,
-                source,
-                destination,
-                fare,
-                availableSeats,
-                vehicleNumber,
-                departureTime,
-                departureDate,
-                RideStatus.ACTIVE
-        )
-    );
-}
+        emit RideCreated(
+            rideId,
+            ownerId,
+            source,
+            destination,
+            fare,
+            availableSeats,
+            vehicleNumber,
+            departureTime,
+            departureDate,
+            RideStatus.ACTIVE
+        );
+    }
 
-    // Function to accept a rider into the ride by the owner
     function acceptRideByOwner(
         string memory rideId,
         string memory ownerId,
@@ -128,32 +118,17 @@ contract RideCreation {
         bytes32 rideKey = keccak256(abi.encodePacked(rideId));
         Ride storage ride = rides[rideKey];
 
-        // Check if the ride exists
         require(bytes(ride.rideId).length > 0, "Ride does not exist");
-
-        // Check if the caller is the owner of the ride
-        require(keccak256(abi.encodePacked(ride.ownerId)) == keccak256(abi.encodePacked(ownerId)), "Unauthorized: Only the ride owner can accept a rider");
-
-        // Check if the ride is in ACTIVE status
-        require(ride.status == RideStatus.ACTIVE, "Ride is not ACTIVE and cannot accept riders");
-
-        // Check if there are available seats
+        require(keccak256(abi.encodePacked(ride.ownerId)) == keccak256(abi.encodePacked(ownerId)), "Unauthorized");
+        require(ride.status == RideStatus.ACTIVE, "Ride is not ACTIVE");
         require(ride.details.availableSeats > 0, "No available seats");
+        require(bytes(ride.riders[riderId].riderId).length == 0, "Rider already in ride");
 
-        // Check if the rider is already in the ride
-        require(bytes(ride.riders[riderId].riderId).length == 0, "Rider is already part of the ride");
-
-        // Add the rider to the mapping and array
         ride.riders[riderId] = Rider(riderId, RiderStatus.ACTIVE);
         ride.riderIds.push(riderId);
-
-        // Decrease the available seats
         ride.details.availableSeats -= 1;
-
-        // Update the last updated timestamp
         ride.updatedAt = block.timestamp;
 
-        // Emit RideUpdated event
         emit RideUpdated(
             ride.rideId,
             ride.ownerId,
@@ -163,7 +138,6 @@ contract RideCreation {
             ride.riderIds.length
         );
 
-        // Emit SendNotificationEvent for the added rider
         emit SendNotificationEvent(
             riderId,
             "active",
@@ -177,7 +151,6 @@ contract RideCreation {
         );
     }
 
-    // Function to update the ride status by the owner (e.g., for completing or canceling a ride)
     function updateRideStatusByDriver(
         string memory rideId,
         string memory ownerId,
@@ -186,20 +159,12 @@ contract RideCreation {
         bytes32 rideKey = keccak256(abi.encodePacked(rideId));
         Ride storage ride = rides[rideKey];
 
-        // Check if the ride exists
         require(bytes(ride.rideId).length > 0, "Ride does not exist");
+        require(keccak256(abi.encodePacked(ride.ownerId)) == keccak256(abi.encodePacked(ownerId)), "Unauthorized");
+        require(ride.status == RideStatus.ACTIVE, "Ride is not ACTIVE");
 
-        // Check if the caller is the owner of the ride
-        require(keccak256(abi.encodePacked(ride.ownerId)) == keccak256(abi.encodePacked(ownerId)), "Unauthorized: Only the ride owner can update the status");
-
-        // Check if the ride is ACTIVE
-        require(ride.status == RideStatus.ACTIVE, "Ride is not in an ACTIVE state");
-
-        // Update RideStatus and perform actions based on the new status
         if (status == RideStatus.CANCELLED) {
             ride.status = RideStatus.CANCELLED;
-
-            // Emit events for all active riders
             for (uint i = 0; i < ride.riderIds.length; i++) {
                 string memory riderId = ride.riderIds[i];
                 if (ride.riders[riderId].status == RiderStatus.ACTIVE) {
@@ -218,13 +183,10 @@ contract RideCreation {
             }
         } else if (status == RideStatus.COMPLETED) {
             ride.status = RideStatus.COMPLETED;
-
-            // Update all ACTIVE riders to COMPLETED and emit events
             for (uint i = 0; i < ride.riderIds.length; i++) {
                 string memory riderId = ride.riderIds[i];
                 if (ride.riders[riderId].status == RiderStatus.ACTIVE) {
                     ride.riders[riderId].status = RiderStatus.COMPLETED;
-
                     emit SendNotificationEvent(
                         riderId,
                         "completed",
@@ -242,10 +204,8 @@ contract RideCreation {
             revert("Invalid RideStatus");
         }
 
-        // Update the last updated timestamp
         ride.updatedAt = block.timestamp;
 
-        // Emit RideUpdated event
         emit RideUpdated(
             ride.rideId,
             ride.ownerId,
@@ -256,7 +216,6 @@ contract RideCreation {
         );
     }
 
-    // Function to cancel the ride for a rider
     function cancelRideByRider(
         string memory rideId,
         string memory riderId
@@ -264,25 +223,14 @@ contract RideCreation {
         bytes32 rideKey = keccak256(abi.encodePacked(rideId));
         Ride storage ride = rides[rideKey];
 
-        // Check if the ride exists
         require(bytes(ride.rideId).length > 0, "Ride does not exist");
-
-        // Check if the rider exists in the ride
         require(bytes(ride.riders[riderId].riderId).length > 0, "Rider is not part of the ride");
+        require(ride.riders[riderId].status == RiderStatus.ACTIVE, "Rider is not ACTIVE");
 
-        // Check if the rider is ACTIVE
-        require(ride.riders[riderId].status == RiderStatus.ACTIVE, "Rider is not in an ACTIVE state");
-
-        // Cancel the rider from the ride
         ride.riders[riderId].status = RiderStatus.CANCELLED;
-
-        // Increment the available seats
         ride.details.availableSeats += 1;
-
-        // Update the last updated timestamp
         ride.updatedAt = block.timestamp;
 
-        // Emit RideUpdated event
         emit RideUpdated(
             ride.rideId,
             ride.ownerId,
@@ -292,7 +240,6 @@ contract RideCreation {
             ride.riderIds.length
         );
 
-        // Emit SendNotificationEvent for the cancelled rider
         emit SendNotificationEvent(
             riderId,
             "cancelled",
@@ -307,20 +254,34 @@ contract RideCreation {
     }
 
     function getRiderStatus(string memory rideId, string memory riderId) public view returns (RiderStatus) {
-    bytes32 rideKey = keccak256(abi.encodePacked(rideId));
-    require(bytes(rides[rideKey].rideId).length > 0, "Ride does not exist");
-    require(bytes(rides[rideKey].riders[riderId].riderId).length > 0, "Rider does not exist");
-    return rides[rideKey].riders[riderId].status;
+        bytes32 rideKey = keccak256(abi.encodePacked(rideId));
+        require(bytes(rides[rideKey].rideId).length > 0, "Ride does not exist");
+        require(bytes(rides[rideKey].riders[riderId].riderId).length > 0, "Rider does not exist");
+        return rides[rideKey].riders[riderId].status;
     }
 
-    // Function to get ride details, matching RideCreated event structure
-    function getRideDetails(string memory rideId) public view returns (RideCreatedResponse memory) {
+    function getRideDetails(string memory rideId)
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            uint,
+            uint,
+            string memory,
+            string memory,
+            string memory,
+            RideStatus
+        )
+    {
         bytes32 rideKey = keccak256(abi.encodePacked(rideId));
         require(bytes(rides[rideKey].rideId).length > 0, "Ride does not exist");
 
         Ride storage ride = rides[rideKey];
 
-        return RideCreatedResponse(
+        return (
             ride.rideId,
             ride.ownerId,
             ride.details.source,
@@ -333,5 +294,4 @@ contract RideCreation {
             ride.status
         );
     }
-
 }

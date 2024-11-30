@@ -25,7 +25,7 @@ public class RideController implements RideResource {
     public ResponseEntity<RideCreatedResponsePayload> createRideRequest(CreateRideRequestModel createRideRequestModel) {
         log.info("Got the request for create ride: {}", createRideRequestModel);
         RideCreatedResponsePayload response = rideService.createRide(createRideRequestModel);
-        log.info("Created the ride: {}", response.getRideId());
+        log.info("Created the ride: {}", response);
         return new ResponseEntity<RideCreatedResponsePayload>(response, HttpStatus.CREATED);
     }
 

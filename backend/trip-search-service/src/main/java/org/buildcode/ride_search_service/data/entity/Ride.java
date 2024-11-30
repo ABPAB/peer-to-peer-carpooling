@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import java.time.Instant;
 
 @Entity
-@Table(name = "Rides")
+@Table(name = "SearchRides")
 @Data
 public class Ride {
 

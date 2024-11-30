@@ -66,6 +66,9 @@ public class RideServiceImpl implements RideService {
 
         Ride toBeCreated = rideMapper.toRide(createRideRequestModel, uuid);
 
+        System.out.println("toBeCreated is");
+        System.out.println(toBeCreated);
+
         try {
             validateRide(toBeCreated);
 
