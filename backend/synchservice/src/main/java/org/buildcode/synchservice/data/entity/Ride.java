@@ -1,9 +1,7 @@
 package org.buildcode.synchservice.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.buildcode.synchservice.api.constants.RideStatus;
 
 import java.math.BigInteger;
@@ -18,32 +16,32 @@ public class Ride {
     @Column(length = 36, nullable = false, unique = true)
     private String id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = true, length = 255)
     private String source; // Source location
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = true, length = 255)
     private String destination; // Destination location
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String userId; // User who posted the ride
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigInteger seats; // Number of seats
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String vehicleNumber; // Vehicle number
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private RideStatus status; // Ride status
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigInteger fare; // Fare for the ride
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = true, updatable = false)
     private Instant createdAt; // Timestamp for creation
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Instant updatedAt; // Timestamp for last update
 
     @PrePersist

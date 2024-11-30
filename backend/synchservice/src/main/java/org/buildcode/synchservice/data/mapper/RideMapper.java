@@ -14,8 +14,11 @@ public class RideMapper {
     public Ride toRideUpdateKafkaPayload(JSONObject jsonPayload) {
         Ride newRide = new Ride();
 
-        if (jsonPayload.has("rideId") && !jsonPayload.isNull("rideId")) {
-            newRide.setId(jsonPayload.getString("rideId"));
+        System.out.println("jsonPayload");
+        System.out.println(jsonPayload);
+
+        if (jsonPayload.has("id") && !jsonPayload.isNull("id")) {
+            newRide.setId(jsonPayload.getString("id"));
         }
 
         if (jsonPayload.has("ownerId") && !jsonPayload.isNull("ownerId")) {
@@ -42,8 +45,8 @@ public class RideMapper {
             newRide.setVehicleNumber(jsonPayload.getString("vehicleNumber"));
         }
 
-        if (jsonPayload.has("rideStatus") && !jsonPayload.isNull("rideStatus")) {
-            newRide.setStatus(RideStatus.valueOf(jsonPayload.getString("rideStatus")));
+        if (jsonPayload.has("status") && !jsonPayload.isNull("status")) {
+            newRide.setStatus(RideStatus.valueOf(jsonPayload.getString("status")));
         }
 
         if (jsonPayload.has("updatedAt") && !jsonPayload.isNull("updatedAt")) {

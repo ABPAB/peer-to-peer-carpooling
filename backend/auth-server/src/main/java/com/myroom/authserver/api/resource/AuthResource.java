@@ -1,6 +1,7 @@
 package com.myroom.authserver.api.resource;
 
 import com.myroom.authserver.api.constants.ApiConstants;
+import com.myroom.authserver.api.model.UserResponseModel;
 import com.myroom.authserver.api.model.VerifyTokenResponseModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +31,21 @@ public interface AuthResource {
     @Operation(method = "POST", summary = "Verify IdToken")
     @PostMapping("/verifyToken")
     ResponseEntity<VerifyTokenResponseModel> verifyToken(
+            @Parameter(name = "Header", description = "Header") HttpServletRequest  httpServletRequest
+    );
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = ApiConstants.MESSAGE_SUCCESS),
+                    @ApiResponse(responseCode = "400", description = ApiConstants.MESSAGE_BAD_REQUEST),
+                    @ApiResponse(responseCode = "500", description = ApiConstants.MESSAGE_INTERNAL_SERVER_ERROR),
+                    @ApiResponse(responseCode = "503", description = ApiConstants.MESSAGE_SERVICE_UNAVAILABLE),
+                    @ApiResponse(responseCode = "404", description = ApiConstants.MESSAGE_NOT_FOUND)
+            }
+    )
+    @Operation(method = "POST", summary = "Verify Token and get User details")
+    @PostMapping("/getUserDetails")
+    ResponseEntity<UserResponseModel> getUserDetails(
             @Parameter(name = "Header", description = "Header") HttpServletRequest  httpServletRequest
     );
 }

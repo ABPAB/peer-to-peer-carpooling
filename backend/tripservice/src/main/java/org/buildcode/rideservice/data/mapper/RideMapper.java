@@ -1,24 +1,39 @@
 package org.buildcode.rideservice.data.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.buildcode.rideservice.api.model.v1_0.CreateRideRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.RideResponseModel;
 import org.buildcode.rideservice.data.dto.RideEventPayload;
 import org.buildcode.rideservice.data.entity.Ride;
+import org.buildcode.rideservice.security.UserInfoContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
+@Slf4j
 @Component
 public class RideMapper {
 
+    @Autowired
+    private UserInfoContext userInfoContext;
+
     public Ride toRide(CreateRideRequestModel createRideRequestModel, String uuid) {
         Ride ride = new Ride();
+
+        log.info("Creating ride object");
+        log.info("user context: {}", userInfoContext.getUserDetails());
+        log.info("user context: {}", userInfoContext.getUserDetails().getUid());
+
         ride.setId(uuid);
+        ride.setOwnerId(userInfoContext.getUserDetails().getUid());
         ride.setSource(createRideRequestModel.getSource());
+        ride.setStatus(createRideRequestModel.getStatus());
         ride.setDestination(createRideRequestModel.getDestination());
-        ride.setOwnerId(createRideRequestModel.getUserId());
         ride.setSeats(createRideRequestModel.getSeats());
         ride.setVehicleNumber(createRideRequestModel.getCarModel());
         ride.setFare(createRideRequestModel.getFare());
+        ride.setDepartureTime(String.valueOf(createRideRequestModel.getDepartureTime()));
+        ride.setDepartureDate(String.valueOf(createRideRequestModel.getDepartureDate()));
+
         return ride;
     }
 
