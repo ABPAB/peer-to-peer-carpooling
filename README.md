@@ -14,6 +14,10 @@
 - **Enhanced Security and Privacy**: Enhances security and privacy through cryptographic techniques and decentralized data storage.
 - **Increased Transparency**: Provides transparency in ride history, ratings, and payment transactions.
  
+<h2>Rydex High Level Design</h2>
+
+![Screenshot 2024-11-30 133432](https://github.com/user-attachments/assets/2de167ff-5bb5-4478-871a-3a510027ec61)
+
 
 <h2>API Documentation</h2>
 
