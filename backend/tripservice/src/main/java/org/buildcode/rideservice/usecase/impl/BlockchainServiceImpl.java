@@ -67,18 +67,6 @@ public class BlockchainServiceImpl implements BlockchainService {
                     rideDetails.getDepartureTime(),
                     rideDetails.getDepartureDate()
             ).send();
-            RideCreation.Struct0 rideInfo = rideCreationContract.getRideDetails(rideDetails.getId()).send();
-            RideCreatedResponsePayload responsePayload = RideCreatedResponsePayload.builder()
-                    .availableSeats(rideInfo.availableSeats)
-                    .departureDate(rideInfo.departureDate)
-                    .departureTime(rideInfo.departureTime)
-                    .destination(rideInfo.destination)
-                    .fare(rideInfo.fare)
-                    .source(rideInfo.source)
-                    .vehicleNumber(rideInfo.vehicleNumber)
-                    .rideId(rideInfo.rideId)
-                    .build();
-            log.info("Ride created successfully with transaction hash: {}", transactionReceipt.getTransactionHash());
 
             rideCreationContract.rideCreatedEventFlowable(
                     DefaultBlockParameter.valueOf(transactionReceipt.getBlockNumber()),
@@ -113,6 +101,18 @@ public class BlockchainServiceImpl implements BlockchainService {
                 eventHandlerService.handleNotificationEvent(notificationPayload, KafkaConstants.SEND_NOTIFICATION_EVENT);
 
             }, error -> log.error("Error while capturing RideCreatedEvent: {}", error.getMessage(), error));
+            RideCreation.Struct0 rideInfo = rideCreationContract.getRideDetails(rideDetails.getId()).send();
+            RideCreatedResponsePayload responsePayload = RideCreatedResponsePayload.builder()
+                    .availableSeats(rideInfo.availableSeats)
+                    .departureDate(rideInfo.departureDate)
+                    .departureTime(rideInfo.departureTime)
+                    .destination(rideInfo.destination)
+                    .fare(rideInfo.fare)
+                    .source(rideInfo.source)
+                    .vehicleNumber(rideInfo.vehicleNumber)
+                    .rideId(rideInfo.rideId)
+                    .build();
+            log.info("Ride created successfully with transaction hash: {}", transactionReceipt.getTransactionHash());
             return responsePayload;
 
         } catch (Exception e) {
