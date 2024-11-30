@@ -1,4 +1,3 @@
-// src/main/java/org/buildcode/rideservice/data/entity/Ride.java
 package org.buildcode.ride_search_service.data.entity;
 
 import jakarta.persistence.*;
@@ -7,8 +6,6 @@ import org.buildcode.ride_search_service.api.constants.RideStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "SearchRides")
@@ -26,39 +23,44 @@ public class Ride {
     @Column(name = "destination", nullable = false)
     private String destination;
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
+    @Column(name = "ownerId", nullable = false)
+    private String ownerId;
 
     @Column(name = "seats", nullable = false)
     private Integer seats;
 
-    @Column(name = "carModel", nullable = false)
-    private String carModel;
+    @Column(name = "vehicleNumber", nullable = false)
+    private String vehicleNumber;
 
     @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RideStatus status;
+    private String status;
+
+    @Column(name = "departureTime", nullable = false)
+    private String departureTime;
+
+    @Column(name = "departureDate", nullable = false)
+    private String departureDate;
 
     @CreatedDate
     @Column(name = "createdAt", nullable = false)
-    private Instant createdAt;
+    private String createdAt;
 
     @LastModifiedBy
     @Column(name = "updatedAt", nullable = false)
-    private Instant updatedAt;
+    private String updatedAt;
 
     @PrePersist
     protected void prePersist() {
         if (this.createdAt == null) {
-            createdAt = Instant.now();
+            createdAt = java.time.LocalDateTime.now().toString(); // Set current timestamp as a string
         }
         if (this.updatedAt == null) {
-            updatedAt = Instant.now();
+            updatedAt = java.time.LocalDateTime.now().toString(); // Set current timestamp as a string
         }
     }
 
     @PreUpdate
     protected void preUpdate() {
-        this.updatedAt = Instant.now();
+        this.updatedAt = java.time.LocalDateTime.now().toString(); // Update timestamp as a string
     }
 }

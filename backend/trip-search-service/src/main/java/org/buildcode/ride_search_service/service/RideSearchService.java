@@ -1,4 +1,3 @@
-// src/main/java/org/buildcode/rideservice/service/RideSearchService.java
 package org.buildcode.ride_search_service.service;
 
 import org.buildcode.ride_search_service.api.model.v1_0.RideSearchRequestModel;
@@ -11,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,30 +22,29 @@ public class RideSearchService {
     private RideRepository rideRepository;
 
     public RideSearchResultResponseModel searchRides(RideSearchRequestModel requestModel, int page, int size) {
-        // Validate only required fields
+        // Validate required fields (source and destination are mandatory)
         if (requestModel.getSource() == null || requestModel.getDestination() == null) {
             throw new IllegalArgumentException("Source and destination are required fields");
         }
 
-        Page<Ride> ridesPage;
-
-        // Use different repository queries depending on whether seats is provided
-        if (requestModel.getSeats() != null) {
-            ridesPage = rideRepository.findRidesWithSeats(
-                    requestModel.getSource(),
-                    requestModel.getDestination(),
-                    requestModel.getSeats(),
-                    PageRequest.of(page, size)
-            );
-        } else {
-            ridesPage = rideRepository.findRidesWithoutSeats(
-                    requestModel.getSource(),
-                    requestModel.getDestination(),
-                    PageRequest.of(page, size)
-            );
+        // Determine the date to search for
+        String searchDate = requestModel.getDepartureDate(); // Use provided date if available
+        if (searchDate == null) {
+            // If no date is provided, default to the current date
+            LocalDate currentDate = LocalDate.now();
+            searchDate = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
 
-        // Populate response model based on found rides
+        // Fetch rides with status 'ACTIVE' based on the determined date, source, and destination
+        Page<Ride> ridesPage = rideRepository.findRidesBySourceDestinationDepartureDateAndStatus(
+                requestModel.getSource(),
+                requestModel.getDestination(),
+                searchDate, // No need to parse if it's already a string format
+                "ACTIVE", // Filter rides with status 'ACTIVE'
+                PageRequest.of(page, size)
+        );
+
+        // If no rides are found, return a response with an empty rides list
         if (ridesPage.isEmpty()) {
             return RideSearchResultResponseModel.builder()
                     .status("No rides found")
@@ -52,15 +52,17 @@ public class RideSearchService {
                     .build();
         }
 
+        // Map the found rides to the response model's ride details list
         List<RideDetails> rideDetailsList = ridesPage.stream()
                 .map(ride -> RideDetails.builder()
                         .source(ride.getSource())
                         .destination(ride.getDestination())
-                        .ownerId(ride.getUserId())
+                        .ownerId(ride.getOwnerId())
                         .availableSeats(ride.getSeats())
                         .build())
                 .collect(Collectors.toList());
 
+        // Return the response model with paginated results
         return RideSearchResultResponseModel.builder()
                 .status("success")
                 .rides(rideDetailsList)

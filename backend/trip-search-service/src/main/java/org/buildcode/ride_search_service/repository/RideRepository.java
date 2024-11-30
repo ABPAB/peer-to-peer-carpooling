@@ -1,4 +1,3 @@
-// src/main/java/org/buildcode/ride_search_service/repository/RideRepository.java
 package org.buildcode.ride_search_service.repository;
 
 import org.buildcode.ride_search_service.data.entity.Ride;
@@ -11,11 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 @Repository
 public interface RideRepository extends CrudRepository<Ride, String> {
 
-    // Query method when seats criteria is provided
-    @Query("SELECT r FROM Ride r WHERE r.source = :source AND r.destination = :destination AND r.seats >= :seats")
-    Page<Ride> findRidesWithSeats(String source, String destination, Integer seats, Pageable pageable);
-
-    // Query method when seats criteria is not provided, defaults to rides with at least 1 available seat
-    @Query("SELECT r FROM Ride r WHERE r.source = :source AND r.destination = :destination AND r.seats >= 1")
-    Page<Ride> findRidesWithoutSeats(String source, String destination, Pageable pageable);
+    // Query method to find rides based on source, destination, departure date, and status
+    @Query("SELECT r FROM Ride r WHERE r.source = :source AND r.destination = :destination AND r.departureDate = :departureDate AND r.status = :status")
+    Page<Ride> findRidesBySourceDestinationDepartureDateAndStatus(String source, String destination, String departureDate, String status, Pageable pageable);
 }
