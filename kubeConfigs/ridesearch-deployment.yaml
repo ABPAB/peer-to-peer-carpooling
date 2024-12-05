@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ridesearch-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ridesearch
+  template:
+    metadata:
+      labels:
+        app: ridesearch
+    spec:
+      containers:
+        - name: ridesearch
+          image: ridesearch-img 
+          ports:
+            - containerPort: 9099
