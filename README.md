@@ -8,10 +8,24 @@
 
 **Rydex** is a `blockchain-powered` peer-to-peer ride sharing platform that revolutionizes the way we travel. By leveraging `smart-contracts`, we eliminate the need for intermediaries, ensuring secure, transparent, and efficient transactions. Our system empowers users to directly connect with each other, book rides, and make payments, all while maintaining privacy and control over their data.
 
-### Objectives
 
-- **Reduced Fees**: Eliminates intermediaries, reducing transaction fees and increasing earnings for drivers.
-- **Enhanced Security and Privacy**: Enhances security and privacy through cryptographic techniques and decentralized data storage.
+
+## **Why Blockchain?**
+
+|         |                                  |
+|------------------------------------|-----------------------------------------------------------|
+| **Single point of control**        | Peer-to-peer network with no single point of control.      |
+| **High platform fees**             | Direct interaction between users eliminates fees.          |
+| **Data manipulation**              | Immutable ledger ensures transparency in transactions.     |
+| **Trust issues**                   | Decentralized reputation system fosters accountability.    |
+| **Dispute resolution challenges**  | Smart contracts automate and enforce agreements fairly.    |
+| **Data breaches**                  | Cryptographic security protects sensitive user data.       |
+
+
+
+
+### Objectives
+- **Enhanced Security and Privacy**: Enhances security and privacy through **Keccak-256** cryptographic technique and decentralized data storage.
 - **Increased Transparency**: Provides transparency in ride history, ratings, and payment transactions.
  
 <h2>Rydex High Level Design</h2>
