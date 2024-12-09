@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authserver-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authserver
+  template:
+    metadata:
+      labels:
+        app: authserver
+    spec:
+      containers:
+        - name: authserver
+          image: pragatiupadhyay753/authservice:1.0
+          ports:
+            - containerPort: 8083
+          volumeMounts:
+          - name: gcp-credentials-volume
+            mountPath: /var/secrets/google
+            readOnly: true
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /var/secrets/google/gcp-credentials.json
+      volumes:
+        - name: gcp-credentials-volume
+          secret:
+            secretName: gcp-credentials
