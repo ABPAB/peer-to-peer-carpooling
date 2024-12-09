@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syncservice
+  template:
+    metadata:
+      labels:
+        app: syncservice
+    spec:
+      containers:
+        - name: syncservice
+          image: pragatiupadhyay753/syncservice:1.0 
+          ports:
+            - containerPort: 8087
