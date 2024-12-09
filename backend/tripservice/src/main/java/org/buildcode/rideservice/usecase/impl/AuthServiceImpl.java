@@ -22,7 +22,7 @@ public class AuthServiceImpl implements AuthService {
             RequestBody body = RequestBody.create(mediaType, "");
 
             Request request = new Request.Builder()
-                    .url("http://localhost:8083/api/v1/auth/getUserDetails")
+                    .url("http://authserver-service:8083/api/v1/auth/getUserDetails")
                     .method("POST", body)
                     .addHeader("Authorization", "Bearer " + bearerToken)
                     .build();
