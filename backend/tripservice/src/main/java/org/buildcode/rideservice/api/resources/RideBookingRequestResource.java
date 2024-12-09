@@ -12,16 +12,12 @@ import org.buildcode.rideservice.api.constants.ApiConstants;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestModel;
 import org.buildcode.rideservice.api.model.v1_0.BookingRequestResponseModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Ride Request Resource")
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = ApiConstants.BOOKING_SERVICE_V1 + ApiConstants.BOOKING_REQUEST)
 public interface RideBookingRequestResource {
 

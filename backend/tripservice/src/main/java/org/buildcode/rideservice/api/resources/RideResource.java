@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Ride Details Resource")
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = ApiConstants.BOOKING_SERVICE_V1)
 public interface RideResource {
 

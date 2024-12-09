@@ -20,11 +20,11 @@ public class RideMapper {
         Ride ride = new Ride();
 
         log.info("Creating ride object");
-        log.info("user context: {}", userInfoContext.getUserDetails());
-        log.info("user context: {}", userInfoContext.getUserDetails().getUid());
+//        log.info("user context: {}", userInfoContext.getUserDetails());
+//        log.info("user context: {}", userInfoContext.getUserDetails().getUid());
 
         ride.setId(uuid);
-        ride.setOwnerId(userInfoContext.getUserDetails().getUid());
+        ride.setOwnerId(uuid);
         ride.setSource(createRideRequestModel.getSource());
         ride.setStatus(createRideRequestModel.getStatus());
         ride.setDestination(createRideRequestModel.getDestination());

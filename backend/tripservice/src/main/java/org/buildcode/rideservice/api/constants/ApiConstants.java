@@ -5,7 +5,8 @@ public class ApiConstants {
     public final static String BLOCKCHAIN_BASE_URL_V1 = "http://localhost:8545";
 
     // KAFKA
-    public final static String KAFKA_BASE_URL = "localhost:9092";
+//    public final static String KAFKA_BASE_URL = "localhost:9092";
+    public final static String KAFKA_BASE_URL = "kafka-service.kafka.svc.cluster.local:9092";
 
     // API URI
     public final static String BOOKING_SERVICE_V1 = "/trip-service/v1";
