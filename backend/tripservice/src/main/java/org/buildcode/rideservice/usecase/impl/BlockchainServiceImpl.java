@@ -55,19 +55,19 @@ public class BlockchainServiceImpl implements BlockchainService {
         try {
             log.info("Creating a new ride on the blockchain...");
 
-            TransactionReceipt transactionReceipt = rideCreationContract.createRide(
-                    rideDetails.getId(),
-                    rideDetails.getOwnerId(),
-                    rideDetails.getSource(),
-                    rideDetails.getDestination(),
-                    rideDetails.getFare(),
-                    rideDetails.getSeats(),
-                    rideDetails.getVehicleNumber(),
-                    rideDetails.getDepartureTime(),
-                    rideDetails.getDepartureDate()
-            ).send();
+//            TransactionReceipt transactionReceipt = rideCreationContract.createRide(
+//                    rideDetails.getId(),
+//                    rideDetails.getOwnerId(),
+//                    rideDetails.getSource(),
+//                    rideDetails.getDestination(),
+//                    rideDetails.getFare(),
+//                    rideDetails.getSeats(),
+//                    rideDetails.getVehicleNumber(),
+//                    rideDetails.getDepartureTime(),
+//                    rideDetails.getDepartureDate()
+//            ).send();
 
-            log.info("Ride created successfully with transaction hash: {}", transactionReceipt.getTransactionHash());
+//            log.info("Ride created successfully with transaction hash: {}", transactionReceipt.getTransactionHash());
 
             log.info("sending ride data to kafka: {}", rideDetails);
             eventHandlerService.handleRideCreatedEvent(rideDetails, KafkaConstants.RIDE_CREATED_TOPIC);

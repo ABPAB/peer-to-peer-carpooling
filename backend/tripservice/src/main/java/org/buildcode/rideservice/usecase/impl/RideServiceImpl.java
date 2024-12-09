@@ -65,6 +65,7 @@ public class RideServiceImpl implements RideService {
         String uuid = generateUUID();
 
         Ride toBeCreated = rideMapper.toRide(createRideRequestModel, uuid);
+        toBeCreated.setStatus(RideStatus.ACTIVE);
 
         System.out.println("toBeCreated is");
         System.out.println(toBeCreated);
@@ -73,6 +74,16 @@ public class RideServiceImpl implements RideService {
             validateRide(toBeCreated);
 
             // add into blockchain
+            Ride ride = rideRepository.save(toBeCreated);
+            RideCreatedResponsePayload responsePayload = new RideCreatedResponsePayload();
+            responsePayload.setRideId(ride.getId());
+            responsePayload.setFare(ride.getFare());
+            responsePayload.setSource(ride.getSource());
+            responsePayload.setDestination(ride.getDestination());
+            responsePayload.setDepartureTime(ride.getDepartureTime());
+            responsePayload.setAvailableSeats(ride.getSeats());
+            responsePayload.setDepartureDate(ride.getDepartureDate());
+            responsePayload.setVehicleNumber(ride.getVehicleNumber());
 
             return blockchainService.createRide(toBeCreated);
         } catch (Exception ex) {

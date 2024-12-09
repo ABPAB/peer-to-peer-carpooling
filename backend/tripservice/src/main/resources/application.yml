@@ -6,9 +6,9 @@ spring:
     name: RIDE-SERVICE
 
   datasource:
-    url: jdbc:mysql://localhost:3306/tripDB2
+    url: jdbc:mysql://mysql.mysql.svc.cluster.local:3306/tripDB2
     username: root
-    password: pawan
+    password: root
 
   jpa:
     show-sql: true
@@ -16,11 +16,6 @@ spring:
       ddl-auto: update
       dialect: org.hibernate.dialect.MySQLDialect
 
-# Eureka Configurations
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
 
 # Swagger Configurations
 springdoc:

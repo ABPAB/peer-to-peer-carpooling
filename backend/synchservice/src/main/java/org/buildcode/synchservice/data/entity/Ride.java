@@ -3,55 +3,72 @@ package org.buildcode.synchservice.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.buildcode.synchservice.api.constants.RideStatus;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import java.math.BigInteger;
 import java.time.Instant;
 
-@Data
 @Entity
-@Table(name = "rides")
+@Table(name = "Rides")
+@Data
 public class Ride {
 
     @Id
     @Column(length = 36, nullable = false, unique = true)
     private String id;
 
-    @Column(nullable = true, length = 255)
-    private String source; // Source location
+    @Column(name = "source", nullable = true)
+    private String source;
 
-    @Column(nullable = true, length = 255)
-    private String destination; // Destination location
+    @Column(name = "destination", nullable = true)
+    private String destination;
 
-    @Column(nullable = true)
-    private String userId; // User who posted the ride
+    @Column(name = "ownerId", nullable = true)
+    private String ownerId;
 
-    @Column(nullable = true)
-    private BigInteger seats; // Number of seats
+    @Column(name = "seats", nullable = true)
+    private BigInteger seats;
 
-    @Column(nullable = true, unique = true)
-    private String vehicleNumber; // Vehicle number
+    @Column(name = "vehicleNumber", nullable = true)
+    private String vehicleNumber;
 
+    @Column(name = "fare", nullable = true)
+    private BigInteger fare;
+
+    @Column(name = "deviceToken", nullable = true)
+    private String deviceToken;
+
+    @Column(name = "status", nullable = true)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private RideStatus status; // Ride status
+    private RideStatus status;
 
-    @Column(nullable = true)
-    private BigInteger fare; // Fare for the ride
+    @Column(name = "departureTime", nullable = true)
+    private String departureTime;
 
-    @Column(nullable = true, updatable = false)
-    private Instant createdAt; // Timestamp for creation
+    @Column(name = "departureDate", nullable = true)
+    private String departureDate;
 
-    @Column(nullable = true)
-    private Instant updatedAt; // Timestamp for last update
+    @CreatedDate
+    @Column(name = "createdAt", nullable = true)
+    private Instant createdAt;
+
+    @LastModifiedBy
+    @Column(name = "updatedAt", nullable = true)
+    private Instant updatedAt;
 
     @PrePersist
-    public void onCreate() {
-        this.createdAt = Instant.now();
-        this.updatedAt = Instant.now();
+    protected  void prePersist(){
+        if(this.createdAt == null){
+            createdAt = Instant.now();
+        }
+        if(this.updatedAt == null){
+            updatedAt = Instant.now();
+        }
     }
 
     @PreUpdate
-    public void onUpdate() {
+    protected void preUpdate(){
         this.updatedAt = Instant.now();
     }
 }
