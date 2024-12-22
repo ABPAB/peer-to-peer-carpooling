@@ -20,10 +20,22 @@ public class RideSearchService {
     @Autowired
     private RideRepository rideRepository;
 
+    private static final int MAX_PAGE_SIZE = 100;
+    private static final int MIN_PAGE_SIZE = 1;
+    private static final int MIN_PAGE = 0;
+
     public RideSearchResultResponseModel searchRides(RideSearchRequestModel requestModel, int page, int size) {
         // Validate only required fields
         if (requestModel.getSource() == null || requestModel.getDestination() == null) {
             throw new IllegalArgumentException("Source and destination are required fields");
+        }
+
+        // Validate page and size parameters
+        if (page < MIN_PAGE) {
+            throw new IllegalArgumentException("Page number cannot be negative");
+        }
+        if (size < MIN_PAGE_SIZE || size > MAX_PAGE_SIZE) {
+            throw new IllegalArgumentException("Page size must be between " + MIN_PAGE_SIZE + " and " + MAX_PAGE_SIZE);
         }
 
         Page<Ride> ridesPage;
