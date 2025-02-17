@@ -346,18 +346,3 @@ For queries or suggestions, please contact the project maintainers:
 **Email**: kpkumar.8757@gmail.com
 
 **GitHub Issues**: [Create an issue](https://github.com/ABPAB/peer-to-peer-carpooling/issues)
-
-<div align="center">
-  
-## **Team Members**
-
-| Name                         | Roll Number   |
-|------------------------------|---------------|
-| **Pragati Upadhyay**          | 2023SL93036   |
-| **Harsh Vardhan Srivastava**  | 2023SL93015   |
-| **Gayatri Deshmukh**          | 2023SL93091   |
-| **Pawan Mehta**               | 2023SL93046   |
-| **Gopal Anand**               | 2023SL93044   |
-</div>
-
-
